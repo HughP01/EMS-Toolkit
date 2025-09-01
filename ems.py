@@ -1,16 +1,11 @@
-"""
-EMS - Extra Modelling System
-A simple Python module to quickly perform data analysis.
-Hugh Plunkett 2025 
-"""
-
-import seaborn as sns
-import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 def correlation_chart(dataframe, method='pearson', figsize=(10,8), cmap='coolwarm'):
     """
-    Generate a correlation heatmap from a pandas DataFrame.
+    Generate a correlation heatmap from a pandas DataFrame (numeric columns only).
 
     Parameters:
         dataframe (pd.DataFrame): The data to analyze.
@@ -24,7 +19,14 @@ def correlation_chart(dataframe, method='pearson', figsize=(10,8), cmap='coolwar
     if not isinstance(dataframe, pd.DataFrame):
         raise TypeError("Input must be a pandas DataFrame.")
     
-    corr = dataframe.corr(method=method)
+    #only numeric columns
+    numeric_df = dataframe.select_dtypes(include=[np.number])
+    
+    if numeric_df.empty:
+        raise ValueError("DataFrame has no numeric columns to compute correlation.")
+    
+    corr = numeric_df.corr(method=method)
+    
     plt.figure(figsize=figsize)
     sns.heatmap(corr, annot=True, fmt=".2f", cmap=cmap, cbar=True, square=True)
     plt.title(f'{method.capitalize()} Correlation Heatmap')
