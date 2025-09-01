@@ -3,6 +3,27 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+def correlation(dataframe,method='pearson'):
+    """
+    just gives numeric feedback
+    in:
+        pandas df
+        correlation method (opt)
+    returns:
+        prints corr matrix
+    """
+if not isinstance(dataframe, pd.DataFrame):
+    raise TypeError("Input must be a pandas DataFrame.")
+#only numeric columns
+numeric_df = dataframe.select_dtypes(include=[np.number])
+if numeric_df.empty:
+    raise ValueError("DataFrame has no numeric columns to compute correlation.")
+    
+corr = numeric_df.corr(method=method)
+print(corr)
+
+
+
 def correlation_chart(dataframe, method='pearson', figsize=(10,8), cmap='coolwarm'):
     """
     Generate a correlation heatmap from a pandas DataFrame (numeric columns only).
