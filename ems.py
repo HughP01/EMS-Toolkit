@@ -12,15 +12,15 @@ def correlation(dataframe,method='pearson'):
     returns:
         prints corr matrix
     """
-if not isinstance(dataframe, pd.DataFrame):
-    raise TypeError("Input must be a pandas DataFrame.")
-#only numeric columns
-numeric_df = dataframe.select_dtypes(include=[np.number])
-if numeric_df.empty:
-    raise ValueError("DataFrame has no numeric columns to compute correlation.")
+    if not isinstance(dataframe, pd.DataFrame):
+        raise TypeError("Input must be a pandas DataFrame.")
+    #only numeric columns
+    numeric_df = dataframe.select_dtypes(include=[np.number])
+    if numeric_df.empty:
+        raise ValueError("DataFrame has no numeric columns to compute correlation.")
     
-corr = numeric_df.corr(method=method)
-print(corr)
+    corr = numeric_df.corr(method=method)
+    print(corr)
 
 
 
