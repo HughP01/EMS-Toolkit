@@ -4,23 +4,23 @@ It is designed to be easily imported into Python, EMS streamlines exploratory da
 # How to use
 
 # Features
-
-# To-Do
-Correlation X
+Correlation X <br>
 Identify Duplicate/Null entries
-Identify Outliers
-Normalise/Standardise data
-Convert Column Data Types
-Generate summary statistics
-Frequency counts and distributions.
-Filtering and subsetting rows.
-Sorting and ranking.
-Grouping and aggregation (sums, averages, counts, etc.).
-Pivoting and reshaping (wide vs long format).
-Feature engineering (e.g., creating ratios, lags, rolling averages).
-Automated data profiling reports
-Plotting histograms, scatter plots, line charts, box plots, heatmaps.
-Time series visualization.
+# To-Do
+Identify Outliers<br>
+Normalise/Standardise data<br>
+Convert Column Data Types<br>
+Generate summary statistics<br>
+Frequency counts and distributions.<br>
+Filtering and subsetting rows.<br>
+Sorting and ranking.<br>
+Better breakdown of duplicate / null column entries <br>
+Grouping and aggregation (sums, averages, counts, etc.).<br>
+Pivoting and reshaping (wide vs long format).<br>
+Feature engineering (e.g., creating ratios, lags, rolling averages).<br>
+Automated data profiling reports<br>
+Plotting histograms, scatter plots, line charts, box plots, heatmaps.<br>
+Time series visualization.<br>
 Interactive dashboards.
 Automated reporting (PDF, HTML, notebooks).
 ## Testing 
