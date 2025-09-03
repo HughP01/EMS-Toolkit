@@ -5,10 +5,13 @@ It is designed to be easily imported into Python, EMS streamlines exploratory da
 
 # Features
 Correlation X <br>
-Identify Duplicate/Null entries
+Identify Duplicate/Null entries<br>
+Normalise/Standardise/Log transform data<br>
+remove outliers<br>
+remove duplicates<br>
+remove columns<br>
 # To-Do
 Identify Outliers<br>
-Normalise/Standardise data<br>
 Convert Column Data Types<br>
 Generate summary statistics<br>
 Frequency counts and distributions.<br>
