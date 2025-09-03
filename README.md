@@ -4,16 +4,16 @@ It is designed to be easily imported into Python, EMS streamlines exploratory da
 # How to use
 
 # Features
-Correlation X <br>
+Correlation <br>
 Identify Duplicate/Null entries<br>
 Identify Outliers<br>
+Generate summary statistics<br>
 Normalise/Standardise/Log transform data<br>
 remove outliers<br>
 remove duplicates<br>
 remove columns<br>
 # To-Do
 Convert Column Data Types<br>
-Generate summary statistics<br>
 Frequency counts and distributions.<br>
 Filtering and subsetting rows.<br>
 Sorting and ranking.<br>
