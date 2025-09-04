@@ -12,9 +12,9 @@ Normalise/Standardise/Log transform data<br>
 remove outliers<br>
 remove duplicates<br>
 remove columns<br>
+Frequency counts and distributions.<br>
 # To-Do
 Convert Column Data Types<br>
-Frequency counts and distributions.<br>
 Filtering and subsetting rows.<br>
 Sorting and ranking.<br>
 Better breakdown of duplicate / null column entries <br>
