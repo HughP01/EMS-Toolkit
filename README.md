@@ -8,13 +8,13 @@ Correlation <br>
 Identify Duplicate/Null entries<br>
 Identify Outliers<br>
 Generate summary statistics<br>
+Convert Column Data Types<br>
 Normalise/Standardise/Log transform data<br>
 remove outliers<br>
 remove duplicates<br>
 remove columns<br>
 Frequency counts and distributions.<br>
 # To-Do
-Convert Column Data Types<br>
 Filtering and subsetting rows.<br>
 Sorting and ranking.<br>
 Better breakdown of duplicate / null column entries <br>
