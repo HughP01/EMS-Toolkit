@@ -84,4 +84,70 @@ def winsorize(df, columns=None, limits=[0.05, 0.05]):
     Winsorize outliers by capping at specified percentiles.
     """
     #implementation here
+
     print("Under Construction")
+
+def convert(df, columns, target_dtype, errors='ignore', inplace=True):
+    """
+    Convert specified columns to the desired data type.
+    
+    Parameters:
+    -----------
+    df : pandas.DataFrame
+        The input dataframe
+    columns : str or list
+        Single column name or list of column names to convert
+    target_dtype : str
+        Desired data type: 'string', 'float', 'int', 'object', 'category', 'datetime'
+    errors : str, default 'ignore'
+        How to handle errors: 'raise', 'coerce', 'ignore'
+    inplace : bool, default True
+        If True, modify the dataframe in place
+    
+    Returns:
+    --------
+    pandas.DataFrames
+    """
+    
+    dtype_mapping = {
+        'string': 'string',
+        'str': 'string',
+        'object': 'object',
+        'float': 'float64',
+        'int': 'int64',
+        'integer': 'int64',
+        'category': 'category',
+        'datetime': 'datetime64[ns]'
+    }
+    
+    if target_dtype.lower() not in dtype_mapping:
+        raise ValueError(f"Unsupported target_dtype: {target_dtype}")
+    
+    if isinstance(columns, str):
+        columns = [columns]
+    
+    if not inplace:
+        df = df.copy()
+    
+    target_pandas_dtype = dtype_mapping[target_dtype.lower()]
+    
+    for col in columns:
+        if col not in df.columns:
+            print(f"Warning: Column '{col}' not found. Skipping.")
+            continue
+            
+        try:
+            if target_dtype.lower() in ['float', 'int', 'integer']:
+                df[col] = pd.to_numeric(df[col], errors=errors)
+            elif target_dtype.lower() == 'datetime':
+                df[col] = pd.to_datetime(df[col], errors=errors)
+            
+            df[col] = df[col].astype(target_pandas_dtype, errors=errors)
+            print(f"Converted '{col}' to {target_pandas_dtype}")
+            
+        except Exception as e:
+            print(f"Error converting '{col}': {e}")
+            if errors == 'raise':
+                raise
+    
+    return df
