@@ -3,8 +3,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-import pandas as pd
-import numpy as np
 
 def generate_dataframe_summary(df, sample_size=5):
     """
@@ -144,37 +142,6 @@ def correlation(dataframe,method='pearson'):
     corr = numeric_df.corr(method=method)
     print(corr)
 
-#corr chart move to basic graphing eventually
-def correlation_chart(dataframe, method='pearson', size=(10,8), cmap='coolwarm'):
-    """
-    Generate a correlation heatmap from a pandas DataFrame (numeric columns only).
-
-    Parameters:
-        dataframe (pd.DataFrame): The data to analyze.
-        method (str): Correlation method ('pearson', 'kendall', 'spearman').
-        figsize (tuple): Figure size for the plot.
-        cmap (str): Seaborn colormap.
-
-    Returns:
-
-        matplotlib.figure.Figure: The heatmap figure.
-    """
-    if not isinstance(dataframe, pd.DataFrame):
-        raise TypeError("Input must be a pandas DataFrame.")
-    
-    #only numeric columns
-    numeric_df = dataframe.select_dtypes(include=[np.number])
-    
-    if numeric_df.empty:
-        raise ValueError("DataFrame has no numeric columns to compute correlation.")
-    
-    corr = numeric_df.corr(method=method)
-    
-    plt.figure(figsize=size)
-    sns.heatmap(corr, annot=True, fmt=".2f", cmap=cmap, cbar=True, square=True)
-    plt.title(f'{method.capitalize()} Correlation Heatmap')
-    plt.tight_layout()
-    plt.show()
 
 #Missing and Dupe Data Check
 def data_check(data):
