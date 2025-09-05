@@ -144,12 +144,14 @@ def correlation(dataframe,method='pearson'):
 
 
 #Missing and Dupe Data Check
-def data_check(data):
+def data_check(data, detail=False):
     """
     Check for missing values and duplicates in a pandas DataFrame.
     
     Parameters:
         data (pd.DataFrame): The data to check.
+        detail (bool): If True, provides detailed information about 
+                        missing values and duplicates including row indices.
     
     Returns:            
         Prints the results of the checks.
@@ -164,11 +166,28 @@ def data_check(data):
         missing_cols = data.isnull().sum()
         missing_cols = missing_cols[missing_cols > 0]
         print(f"Columns with missing values: {', '.join(missing_cols.index)}")
+        
+        if detail:
+            print("\nDetailed missing values information:")
+            for col in missing_cols.index:
+                missing_rows = data[data[col].isnull()].index.tolist()
+                print(f"  {col}: {len(missing_rows)} missing values at rows {missing_rows}")
 
     if duplicates_total > 0:
-        dupe_cols = data.duplicated().sum()
-        dupe_cols = dupe_cols[dupe_cols > 0]
-        print(f"Columns with duplicate values: {', '.join(dupe_cols.index)}")
+        print(f"Total duplicate rows: {duplicates_total}")
+        
+        if detail:
+            print("\nDetailed duplicate information:")
+            duplicate_rows = data[data.duplicated(keep=False)].index.tolist()
+            print(f"Duplicate rows found at indices: {duplicate_rows}")
+            
+            # Show the actual duplicate rows
+            duplicates = data[data.duplicated(keep=False)]
+            print("\nDuplicate rows content:")
+            print(duplicates.to_string())
+
+    if detail and missing_total == 0 and duplicates_total == 0:
+        print("No missing values or duplicates found in detailed check.")
 
 #Identify Potential Outliers
 def find_outliers(df, show_rows=False, show_details=False):
