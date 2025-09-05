@@ -17,7 +17,6 @@ Frequency counts and distributions.<br>
 # To-Do
 Filtering and subsetting rows.<br>
 Sorting and ranking.<br>
-Better breakdown of duplicate / null column entries <br>
 Grouping and aggregation (sums, averages, counts, etc.).<br>
 Pivoting and reshaping (wide vs long format).<br>
 Feature engineering (e.g., creating ratios, lags, rolling averages).<br>
