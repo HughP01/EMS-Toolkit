@@ -23,7 +23,7 @@ Feature engineering (e.g., creating ratios, lags, rolling averages).<br>
 Automated data profiling reports<br>
 Plotting histograms, scatter plots, line charts, box plots, heatmaps.<br>
 Time series visualization.<br>
-Interactive dashboards.
+Interactive dashboards.<br>
 Automated reporting (PDF, HTML, notebooks).
 ## Testing 
 Hypothesis testing (t-tests, chi-square, ANOVA)
