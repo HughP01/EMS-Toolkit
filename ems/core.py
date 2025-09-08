@@ -256,3 +256,73 @@ def find_outliers(df, show_rows=False, show_details=False):
         
         if show_rows and result['outlier_count'] > 5:  # Show preview if many outliers
             print(f"   ... ({result['outlier_count'] - 5} more outliers)")
+
+def pivot_df(df, index=None, columns=None, values=None, aggfunc='mean', 
+                   fill_value=None, margins=False, margins_name='All', dropna=True):
+    """
+    Pivot a pandas DataFrame with customizable parameters.
+    
+    Parameters:
+    -----------
+    df : pandas.DataFrame
+        Input DataFrame to pivot
+    index : str or list, optional
+        Column(s) to use as index (rows) in the pivot table
+    columns : str or list, optional
+        Column(s) to use as columns in the pivot table
+    values : str or list, optional
+        Column(s) to aggregate in the pivot table
+    aggfunc : function, str, list, or dict, default 'mean'
+        Aggregation function(s) to use ('mean', 'sum', 'count', etc.)
+    fill_value : scalar, default None
+        Value to replace missing values with
+    margins : bool, default False
+        Add row/column margins (subtotals)
+    margins_name : str, default 'All'
+        Name of the row/column containing margin totals
+    dropna : bool, default True
+        Do not include columns whose entries are all NaN
+    
+    Returns:
+    --------
+    pandas.DataFrame
+        Pivoted DataFrame
+    """
+    
+    #Validate input
+    if not isinstance(df, pd.DataFrame):
+        raise TypeError("Input must be a pandas DataFrame")
+    
+    if columns is None:
+        raise ValueError("'columns' parameter is required")
+    
+    if values is None:
+        # If values not specified, use all numeric columns except index and columns
+        numeric_cols = df.select_dtypes(include=[np.number]).columns.tolist()
+        if index:
+            index_cols = [index] if isinstance(index, str) else index
+            numeric_cols = [col for col in numeric_cols if col not in index_cols]
+        columns_cols = [columns] if isinstance(columns, str) else columns
+        numeric_cols = [col for col in numeric_cols if col not in columns_cols]
+        
+        if not numeric_cols:
+            raise ValueError("No numeric columns found for aggregation. Please specify 'values' parameter.")
+        values = numeric_cols[0]  # Use first numeric column
+    
+    try:
+        # Create pivot table
+        pivot_df = df.pivot_table(
+            index=index,
+            columns=columns,
+            values=values,
+            aggfunc=aggfunc,
+            fill_value=fill_value,
+            margins=margins,
+            margins_name=margins_name,
+            dropna=dropna
+        )
+        
+        return pivot_df
+    
+    except Exception as e:
+        raise ValueError(f"Error creating pivot table: {str(e)}")
