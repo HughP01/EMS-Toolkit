@@ -180,3 +180,12 @@ def stacked_chart(df, category_col, value_col, stack_col, title="Stacked Bar Cha
         aggfunc='sum', 
         fill_value=0
     )
+    plt.figure(figsize=(10, 6))
+    pivot_df.plot(kind='bar', stacked=True, colormap='viridis')
+    plt.title(title, fontsize=14, fontweight='bold')
+    plt.xlabel(x_label if x_label else category_col)
+    plt.ylabel(y_label if y_label else value_col)
+    plt.legend(title=legend_title if legend_title else stack_col)
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
