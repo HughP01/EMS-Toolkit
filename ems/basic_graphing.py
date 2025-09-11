@@ -126,3 +126,57 @@ def analyze_dist(df, figsize=(15, 10)):
             
         plt.tight_layout()
         plt.show()
+
+def create_boxplot(df, x_col, y_col, title="Box Plot", x_label=None, y_label=None):
+    """
+    Creates a box plot using Seaborn.
+    
+    Parameters:
+    df (DataFrame): Pandas DataFrame containing the data
+    x_col (str): Column name for the x-axis (categorical variable)
+    y_col (str): Column name for the y-axis (numerical variable)
+    title (str): Title of the plot
+    x_label (str): Label for the x-axis (uses x_col if None)
+    y_label (str): Label for the y-axis (uses y_col if None)
+    """
+    plt.figure(figsize=(10, 6))
+    sns.boxplot(data=df, x=x_col, y=y_col)
+    plt.title(title, fontsize=14, fontweight='bold')
+    plt.xlabel(x_label if x_label else x_col)
+    plt.ylabel(y_label if y_label else y_col)
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
+
+def box_chart(df,outliers_only=False);
+    """Creates a box plot of all numeric columns
+
+    Params:
+    df
+    outliers_only : only shows columns that appear to contain outliers (default = false)
+    """
+    print("Under construction")
+
+def stacked_chart(df, category_col, value_col, stack_col, title="Stacked Bar Chart", 
+                       x_label=None, y_label=None, legend_title=None):
+    """
+    Creates a stacked bar chart using Pandas and Seaborn styling.
+    
+    Parameters:
+    df (DataFrame): Pandas DataFrame containing the data
+    category_col (str): Column name for the main categories (x-axis)
+    value_col (str): Column name for the values (y-axis)
+    stack_col (str): Column name for the stacking categories
+    title (str): Title of the plot
+    x_label (str): Label for the x-axis (uses category_col if None)
+    y_label (str): Label for the y-axis (uses value_col if None)
+    legend_title (str): Title for the legend (uses stack_col if None)
+    """
+    # Create pivot table for stacked bar chart
+    pivot_df = df.pivot_table(
+        index=category_col, 
+        columns=stack_col, 
+        values=value_col, 
+        aggfunc='sum', 
+        fill_value=0
+    )
