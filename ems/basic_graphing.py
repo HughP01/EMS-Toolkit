@@ -148,14 +148,68 @@ def create_boxplot(df, x_col, y_col, title="Box Plot", x_label=None, y_label=Non
     plt.tight_layout()
     plt.show()
 
-def box_chart(df,outliers_only=False):
+def box_chart(df, outliers_only=False):
     """Creates a box plot of all numeric columns
 
     Params:
-    df
+    df: pandas DataFrame
     outliers_only : only shows columns that appear to contain outliers (default = false)
     """
-    print("Under construction")
+    numeric_cols = df.select_dtypes(include=np.number).columns.tolist()
+    
+    if not numeric_cols:
+        print("No numeric columns found in the DataFrame.")
+        return
+    
+    # Filter columns with outliers if requested
+    if outliers_only:
+        numeric_cols_with_outliers = []
+        for col in numeric_cols:
+            data = df[col].dropna()
+            if len(data) > 0:
+                Q1 = data.quantile(0.25)
+                Q3 = data.quantile(0.75)
+                IQR = Q3 - Q1
+                lower_bound = Q1 - 1.5 * IQR
+                upper_bound = Q3 + 1.5 * IQR
+                
+                # Check if there are any outliers
+                if ((data < lower_bound) | (data > upper_bound)).any():
+                    numeric_cols_with_outliers.append(col)
+        
+        numeric_cols = numeric_cols_with_outliers
+        if not numeric_cols:
+            print("No columns with outliers found.")
+            return
+    
+    # Grid size for numeric plots
+    n_numeric = len(numeric_cols)
+    n_cols = min(3, n_numeric)
+    n_rows = (n_numeric + n_cols - 1) // n_cols
+    
+    # Create figure
+    fig, axes = plt.subplots(n_rows, n_cols, figsize=(15, 5 * n_rows))
+    
+    #single subplot case
+    if n_numeric == 1:
+        axes = [axes]
+    elif n_rows > 1 or n_cols > 1:
+        axes = axes.flatten()
+    
+    for i, col in enumerate(numeric_cols):
+        if i < len(axes):
+            #Create boxplot
+            sns.boxplot(y=df[col].dropna(), ax=axes[i])
+            axes[i].set_title(f'Boxplot of {col}')
+            axes[i].set_xlabel(col)
+            axes[i].set_ylabel('Value')
+    
+    # Hide unused subplots
+    for j in range(i + 1, len(axes)):
+        axes[j].set_visible(False)
+    
+    plt.tight_layout()
+    plt.show()
 
 def stacked_chart(df, category_col, value_col, stack_col, title="Stacked Bar Chart", 
                        x_label=None, y_label=None, legend_title=None):
