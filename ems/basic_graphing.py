@@ -148,7 +148,7 @@ def create_boxplot(df, x_col, y_col, title="Box Plot", x_label=None, y_label=Non
     plt.tight_layout()
     plt.show()
 
-def box_chart(df,outliers_only=False);
+def box_chart(df,outliers_only=False):
     """Creates a box plot of all numeric columns
 
     Params:
