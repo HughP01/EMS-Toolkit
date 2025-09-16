@@ -16,7 +16,7 @@ remove columns<br>
 Frequency counts and distributions.<br>
 Pivoting <br>
 Graphing:<br>
-Boxplots, Correlation Heatmaps
+Boxplots, Correlation Heatmaps, dotplot
 # To-Do
 Filtering and subsetting rows.<br>
 Sorting and ranking.<br>
@@ -24,7 +24,7 @@ Grouping and aggregation (sums, averages, counts, etc.).<br>
 reshaping (wide vs long format).<br>
 Feature engineering (e.g., creating ratios, lags, rolling averages).<br>
 Automated data profiling reports<br>
-Plotting histograms, scatter plots, line charts<br>
+Plotting histograms, line charts<br>
 Time series visualization.<br>
 Interactive dashboards.<br>
 Automated reporting (PDF, HTML, notebooks).
