@@ -18,6 +18,7 @@ Pivoting <br>
 Graphing:<br>
 Boxplots, Correlation Heatmaps, dotplot
 # To-Do
+Tidy README<br>
 Filtering and subsetting rows.<br>
 Sorting and ranking.<br>
 Grouping and aggregation (sums, averages, counts, etc.).<br>
