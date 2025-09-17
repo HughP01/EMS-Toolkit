@@ -140,7 +140,7 @@ def correlation(dataframe,method='pearson'):
         raise ValueError("DataFrame has no numeric columns to compute correlation.")
     
     corr = numeric_df.corr(method=method)
-    print(corr)
+    return corr
 
 
 #Missing and Dupe Data Check
