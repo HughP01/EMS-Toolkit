@@ -16,7 +16,8 @@ remove columns<br>
 Frequency counts and distributions.<br>
 Pivoting <br>
 Graphing:<br>
-Boxplots, Correlation Heatmaps, dotplot
+Boxplots, Correlation Heatmaps, dotplot<br>
+report generation using gemini: Correlation report
 # To-Do
 Tidy README<br>
 Filtering and subsetting rows.<br>
@@ -24,12 +25,11 @@ Sorting and ranking.<br>
 Grouping and aggregation (sums, averages, counts, etc.).<br>
 reshaping (wide vs long format).<br>
 Feature engineering (e.g., creating ratios, lags, rolling averages).<br>
-Automated data profiling reports<br>
-Plotting histograms, line charts<br>
-Time series visualization.<br>
+report generation using gemini: data type report, dist. report,  <br>
+Plotting histograms, line charts,Time series<br>
 Interactive dashboards.<br>
 Automated reporting (PDF, HTML, notebooks).
-## Testing 
+#### Testing 
 Hypothesis testing (t-tests, chi-square, ANOVA)
 Regression models (linear, logistic, etc.).
 Classification Models
