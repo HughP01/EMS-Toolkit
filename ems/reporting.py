@@ -76,6 +76,3 @@ def corr_report(dataframe, method='pearson'): #Correlation report generation
     print(report_text)
     print("=" * 70)
 
-
-
-corr_report(df)
