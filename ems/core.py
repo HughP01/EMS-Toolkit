@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+from collections import Counter
 
 
 def generate_dataframe_summary(df, sample_size=5):
@@ -320,9 +321,46 @@ def pivot_df(df, index=None, columns=None, values=None, aggfunc='mean',
             margins=margins,
             margins_name=margins_name,
             dropna=dropna
-        )
-        
+        )       
         return pivot_df
     
     except Exception as e:
         raise ValueError(f"Error creating pivot table: {str(e)}")
+
+def unique(data, columns=None):
+    """
+    Print unique values and their counts from a dataset.
+    
+    Parameters:
+    data: pandas DataFrame, list, or array-like object
+    columns: str, list of str, or None. If None, uses all columns for DataFrames
+             or the single column for list/array data
+    """
+    
+    # Handle different input types
+    if isinstance(data, pd.DataFrame):
+        if columns is None:
+            columns = data.columns.tolist()
+        elif isinstance(columns, str):
+            columns = [columns]
+        
+        for col in columns:
+            print(f"\n=== Column: {col} ===")
+            value_counts = data[col].value_counts()
+            for value, count in value_counts.items():
+                print(f"{value}: {count}")
+            print(f"Total unique values: {len(value_counts)}")
+    
+    elif hasattr(data, '__iter__') and not isinstance(data, str):
+        #lists, arrays, series
+        if columns is not None:
+            print("Warning: 'columns' parameter ignored for non-DataFrame input")
+        
+        counter = Counter(data)
+        print(f"\n=== Values ===")
+        for value, count in counter.most_common():
+            print(f"{value}: {count}")
+        print(f"Total unique values: {len(counter)}")
+    
+    else:
+        print("Unsupported data type. Please provide a DataFrame, list, or array.")
