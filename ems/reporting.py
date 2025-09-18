@@ -4,9 +4,6 @@ import pandas as pd
 import numpy as np
 from dotenv import load_dotenv
 
-genai.configure(api_key=os.getenv('GEMINI_API_KEY')) #Have API key saved as GEMINI_API_KEY in sys variables
-
-
 def corr_report(dataframe, method='pearson'): #Correlation report generation
     """
     Generate a correlation report with AI-powered business insights
