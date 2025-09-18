@@ -7,6 +7,7 @@ It is designed to be easily imported into Python, EMS streamlines exploratory da
 Correlation <br>
 Identify Duplicate/Null entries<br>
 Identify Outliers<br>
+Identify Unique values with counts<br>
 Generate summary statistics<br>
 Convert Column Data Types<br>
 Normalise/Standardise/Log transform data<br>
