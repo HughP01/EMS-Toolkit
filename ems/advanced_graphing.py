@@ -1,6 +1,8 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
+import plotly.express as px
+
 
 def dot_plot(df, x_col, y_col, hue_col=None, title="Scatter Plot", 
                  x_label=None, y_label=None, figsize=(10, 6), alpha=0.7, 
@@ -85,3 +87,51 @@ def dot_plot(df, x_col, y_col, hue_col=None, title="Scatter Plot",
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
     
     return ax
+
+def world_chart(df, countries, column, 
+                        locationmode='country names',
+                        color_scale='Viridis',
+                        title=None,
+                        width=1000,
+                        height=600):
+    """
+    Choropleth function with customization options.
+    
+    Parameters:
+    locationmode: 'country names', 'ISO-3', or 'USA-states'
+    color_scale: Any Plotly color scale ('Viridis', 'Plasma', 'Reds', etc.)
+    """
+    
+    if title is None:
+        title = f'World Map - {column} Distribution'
+    
+    fig = px.choropleth(
+        df,
+        locations=countries,
+        locationmode=locationmode,
+        color=column,
+        hover_name=countries,
+        color_continuous_scale=color_scale,
+        title=title,
+        labels={column: column.replace('_', ' ').title()},
+        width=width,
+        height=height
+    )
+    
+    fig.update_layout(
+        geo=dict(
+            showframe=False,
+            showcoastlines=True,
+            projection_type='natural earth'
+        ),
+        margin=dict(l=0, r=0, t=50, b=0)
+    )
+    
+    return fig
+
+def show_world_chart(df,country,column):
+    """
+    generates and displays the choropleth chart
+    """
+    fig = world_chart(df, country, column)
+    fig.show()
