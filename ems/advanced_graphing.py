@@ -135,3 +135,93 @@ def show_world_chart(df,country,column):
     """
     fig = world_chart(df, country, column)
     fig.show()
+
+def lineplot(df, x_col, y_col, hue_col=None, title="Line Chart", 
+                   x_label=None, y_label=None, figsize=(10, 6), alpha=0.8, 
+                   palette='viridis', save_path=None, ci=95, 
+                   style_col=None, markers=False, linewidth=2.5,
+                   err_style='band', err_alpha=0.3):
+    """
+    Create a line chart using Seaborn with optional confidence intervals.
+    
+    Parameters:
+    -----------
+    df : pandas DataFrame
+        The DataFrame containing the data to plot
+    x_col : str
+        Column name for the x-axis (should be numeric or datetime)
+    y_col : str
+        Column name for the y-axis
+    hue_col : str, optional
+        Column name for color encoding (categorical variable)
+    title : str, optional
+        Title of the plot (default: "Line Chart")
+    x_label : str, optional
+        Label for x-axis (default: uses x_col)
+    y_label : str, optional
+        Label for y-axis (default: uses y_col)
+    figsize : tuple, optional
+        Figure size (width, height) in inches (default: (10, 6))
+    alpha : float, optional
+        Transparency of lines (default: 0.8)
+    palette : str, optional
+        Color palette name (default: 'viridis')
+    save_path : str, optional
+        Path to save the plot (e.g., 'plot.png')
+    ci : int, None, or 'sd', optional
+        Confidence interval size:
+        - int: Confidence interval size (e.g., 95 for 95% CI)
+        - None: No confidence interval
+        - 'sd': Show standard deviation instead of CI
+    style_col : str, optional
+        Column name for line style encoding
+    markers : bool, optional
+        Whether to show markers on data points (default: False)
+    linewidth : float, optional
+        Width of the lines (default: 2.5)
+    err_style : str, optional
+        Style of error representation: 'band' or 'bars' (default: 'band')
+    err_alpha : float, optional
+        Transparency of error region (default: 0.3)
+    
+    Returns:
+    --------
+    matplotlib.axes.Axes
+        The axes object with the plot
+    """
+    #figure and axes
+    plt.figure(figsize=figsize)
+    
+    #line plot
+    ax = sns.lineplot(data=df, x=x_col, y=y_col, hue=hue_col, style=style_col,
+                     ci=ci, err_style=err_style, markers=markers, 
+                     alpha=alpha, palette=palette, linewidth=linewidth)
+    
+    #labels and title
+    ax.set_title(title, fontsize=16, fontweight='bold')
+    ax.set_xlabel(x_label if x_label else x_col)
+    ax.set_ylabel(y_label if y_label else y_col)
+    
+    #error region transparency if CI is shown
+    if ci is not None:
+        for collection in ax.collections:
+            collection.set_alpha(err_alpha)
+    
+    # Add grid for better readability
+    ax.grid(True, alpha=0.3)
+    
+    # Rotate x-axis labels if they're long (useful for datetime)
+    if df[x_col].dtype == 'object' or hasattr(df[x_col].dtype, 'tz'):
+        plt.xticks(rotation=45)
+    
+    # Adjust layout
+    plt.tight_layout()
+    
+    # Save plot if path is provided
+    if save_path:
+        plt.savefig(save_path, dpi=300, bbox_inches='tight')
+    
+    return ax
+
+  
+    
