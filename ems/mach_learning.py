@@ -25,8 +25,8 @@ def Regr(df, model, use="CPU", target=None, test_size=0.2, random_state=42,
         Whether to scale numeric features (standardization)
     verbose : bool, optional, default=True
         Whether to print detailed progress and evaluation metrics
-  """
-  print("Under Construction")
+    """
+    print("Under Construction")
 
 #Classif Mods
 def Classif(df, model, use="CPU", target=None, test_size=0.2, random_state=42, 
@@ -55,5 +55,5 @@ def Classif(df, model, use="CPU", target=None, test_size=0.2, random_state=42,
         Whether to scale numeric features (standardization)
     verbose : bool, optional, default=True
         Whether to print detailed progress and evaluation metrics
-  """
-  print("Under Construction"
+    """
+    print("Under Construction")
