@@ -4,30 +4,44 @@ It is designed to be easily imported into Python, EMS streamlines exploratory da
 # How to use
 
 # Features
-Correlation <br>
-Identify Duplicate/Null entries<br>
-Identify Outliers<br>
-Identify Unique values with counts<br>
-Generate summary statistics<br>
-Convert Column Data Types<br>
-Normalise/Standardise/Log transform data<br>
-remove outliers<br>
-remove duplicates<br>
-remove columns<br>
-Frequency counts and distributions.<br>
-Pivoting <br>
-Graphing:<br>
-Boxplots, Correlation Heatmaps, dotplot<br>
-report generation using gemini: Correlation report
+
+## Data Quality & Cleaning
+- Identify duplicate, null, and unique entries
+- Remove duplicates and outliers
+- Handle missing values
+- Convert column data types
+- Remove unnecessary columns
+
+## Data Analysis & Statistics
+- Generate comprehensive summary statistics
+- Calculate correlation matrices
+- Perform frequency counts and distribution analysis
+- Identify and analyze outliers
+- Pivoting and data reshaping
+
+## Data Transformation
+- Normalize and standardize data
+- Apply log transformations
+- Data scaling and normalization techniques
+
+## Visualization
+- **Statistical Charts**: Boxplots, dot plots, line plots
+- **Comparative Analysis**: Stacked bar charts, correlation heatmaps
+- **Geospatial**: Choropleth maps
+- Distribution plots and frequency visualizations
+
+## Automated Reporting
+- **Correlation Reports**: Detailed correlation analysis using Gemini
+- **Data Quality Reports**: Comprehensive data assessment and quality metrics
+
 # To-Do
-Tidy README<br>
 Filtering and subsetting rows.<br>
 Sorting and ranking.<br>
 Grouping and aggregation (sums, averages, counts, etc.).<br>
 reshaping (wide vs long format).<br>
 Feature engineering (e.g., creating ratios, lags, rolling averages).<br>
-report generation using gemini: data type report, dist. report,  <br>
-Plotting histograms, line charts,Time series<br>
+gemini: data type report, dist. report,  <br>
+Plotting Time series<br>
 Interactive dashboards.<br>
 Automated reporting (PDF, HTML, notebooks).
 #### Testing 
