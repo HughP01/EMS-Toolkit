@@ -4,7 +4,7 @@ It is designed to be easily imported into Python, EMS streamlines exploratory da
 # Getting Started
 For usage documentation please find USAGE.md.
 ### Instalation
--Clone this repo (or download as .zip file and extract)
+- Clone this repo (or download as .zip file and extract)
 -
 
 # Features
