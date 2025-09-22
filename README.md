@@ -1,36 +1,40 @@
 # EMS - Extra Modelling System
 EMS - Extra Modelling System is a simple to use data analysis system to quickly provides insights, visualizations, and statistical summaries of your datasets. with minimal user coding required. <br>
 It is designed to be easily imported into Python, EMS streamlines exploratory data analysis, allowing you to identify trends, correlations, and key metrics with minimal code. Perfect for data scientists, analysts, and developers who want fast, clear, and actionable data insights.
-# How to use
+# Getting Started
+For usage documentation please find USAGE.md.
+### Instalation
+-Clone this repo (or download as .zip file and extract)
+-
 
 # Features
 
-## Data Quality & Cleaning
+### Data Quality & Cleaning
 - Identify duplicate, null, and unique entries
 - Remove duplicates and outliers
 - Handle missing values
 - Convert column data types
 - Remove unnecessary columns
 
-## Data Analysis & Statistics
+### Data Analysis & Statistics
 - Generate comprehensive summary statistics
 - Calculate correlation matrices
 - Perform frequency counts and distribution analysis
 - Identify and analyze outliers
 - Pivoting and data reshaping
 
-## Data Transformation
+### Data Transformation
 - Normalize and standardize data
 - Apply log transformations
 - Data scaling and normalization techniques
 
-## Visualization
+### Visualization
 - **Statistical Charts**: Boxplots, dot plots, line plots
 - **Comparative Analysis**: Stacked bar charts, correlation heatmaps
 - **Geospatial**: Choropleth maps
 - Distribution plots and frequency visualizations
 
-## Automated Reporting
+### Automated Reporting
 - **Correlation Reports**: Detailed correlation analysis using Gemini
 - **Data Quality Reports**: Comprehensive data assessment and quality metrics
 
