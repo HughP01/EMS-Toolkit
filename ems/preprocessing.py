@@ -3,83 +3,123 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from scipy.stats.mstats import winsorize
 
-def handle_missing_values(df, strategy='avg', columns=None):
-    #Implementation here
+def handle_missing_values(data, strategy='avg', columns=None):
     """
-    df: pandas DataFrame
+    Handle missing values in a pandas DataFrame.
+    
+    Parameters:
+    data: pandas DataFrame
     strategy: 'avg' replaces with mean for numeric columns median for categorical, 'drop' removes rows with missing values
     columns: list of columns to apply the strategy on, if None applies to all columns
+    
+    Returns:
+    pandas DataFrame with missing values handled
     """
-    print("Under Construction")
+    # Make a copy of the data to avoid modifying the original
+    df = data.copy()
+    
+    # If columns is None, apply to all columns
+    if columns is None:
+        columns = df.columns.tolist()
+    
+    # Validate that specified columns exist in the DataFrame
+    for col in columns:
+        if col not in df.columns:
+            raise ValueError(f"Column '{col}' not found in DataFrame")
+    
+    if strategy == 'drop':
+        # Drop rows with missing values in the specified columns
+        df = df.dropna(subset=columns)
+    
+    elif strategy == 'avg':
+        for col in columns:
+            if col in df.columns:
+                if df[col].dtype in ['int64', 'float64']:
+                    # Numeric column - replace with mean
+                    fill_value = df[col].mean()
+                else:
+                    # Categorical column - replace with median (mode for categorical)
+                    # For categorical data, median doesn't make sense, so we use mode
+                    if df[col].notna().sum() > 0:  # Check if there are non-null values
+                        fill_value = df[col].mode()[0] if not df[col].mode().empty else 'Unknown'
+                    else:
+                        fill_value = 'Unknown'
+                
+                df[col] = df[col].fillna(fill_value)
+    
+    else:
+        raise ValueError("Strategy must be either 'avg' or 'drop'")
+    
+    return df
 
-def remove_duplicates(df, subset=None):
+def remove_duplicates(data, subset=None):
     """Remove duplicate rows from DataFrame."""
-    return df.drop_duplicates(subset=subset, keep='first')
+    return data.drop_duplicates(subset=subset, keep='first')
 
-def drop_columns(df, columns_to_drop):
+def drop_columns(data, columns_to_drop):
     """Drop specified columns from DataFrame."""
-    return df.drop(columns=columns_to_drop, errors='ignore')
+    return data.drop(columns=columns_to_drop, errors='ignore')
 
 #Data Transforlamtion 
-def standardize(df, columns=None):
+def standardize(data, columns=None):
     """
     Standardize numeric columns (z-score normalization).
     Returns DataFrame with standardized columns.
     """
     if columns is None:
-        columns = df.select_dtypes(include=[np.number]).columns
+        columns = data.select_dtypes(include=[np.number]).columns
     
     for col in columns:
-        if col in df.columns:
-            df[col] = (df[col] - df[col].mean()) / df[col].std()
-    return df
+        if col in data.columns:
+            data[col] = (data[col] - data[col].mean()) / data[col].std()
+    return data
 
-def normalize(df, columns=None):
+def normalize(data, columns=None):
     """
     Min-max normalization (scale to 0-1 range).
     Returns DataFrame with normalized columns.
     """
     if columns is None:
-        columns = df.select_dtypes(include=[np.number]).columns
+        columns = data.select_dtypes(include=[np.number]).columns
     
     for col in columns:
-        if col in df.columns:
-            df[col] = (df[col] - df[col].min()) / (df[col].max() - df[col].min())
-    return df
+        if col in data.columns:
+            data[col] = (data[col] - data[col].min()) / (data[col].max() - data[col].min())
+    return data
 
-def log_transform(df, columns, add_one=True):
+def log_transform(data, columns, add_one=True):
     """
     Apply log transformation to specified columns.
     add_one: Add 1 to avoid log(0) if needed.
     """
     for col in columns:
         if add_one:
-            df[col] = np.log1p(df[col])
+            data[col] = np.log1p(data[col])
         else:
-            df[col] = np.log(df[col])
-    return df
+            data[col] = np.log(data[col])
+    return data
 
 #Outlier Handling
-def remove_outliers_iqr(df, columns=None, threshold=1):
+def remove_outliers_iqr(data, columns=None, threshold=1):
     """
     Remove outliers using Interquartile Range method (Quartiles +- IQR).
     Returns DataFrame with outliers removed.
     """
     if columns is None:
-        columns = df.select_dtypes(include=[np.number]).columns
+        columns = data.select_dtypes(include=[np.number]).columns
     
     for col in columns:
-        Q1 = df[col].quantile(0.25)
-        Q3 = df[col].quantile(0.75)
+        Q1 = data[col].quantile(0.25)
+        Q3 = data[col].quantile(0.75)
         IQR = Q3 - Q1
         lower_bound = Q1 - threshold * IQR
         upper_bound = Q3 + threshold * IQR
         
-        df = df[(df[col] >= lower_bound) & (df[col] <= upper_bound)]
+        data = data[(data[col] >= lower_bound) & (data[col] <= upper_bound)]
     
-    return df
+    return data
 
-def winsorize(df, columns=None, limits=[0.05, 0.05]):
+def winsorize(data, columns=None, limits=[0.05, 0.05]):
     """
     Winsorize outliers by capping at specified percentiles.
     """
@@ -87,13 +127,13 @@ def winsorize(df, columns=None, limits=[0.05, 0.05]):
 
     print("Under Construction")
 
-def convert(df, columns, target_dtype, errors='ignore', inplace=True):
+def convert(data, columns, target_dtype, errors='ignore', inplace=True):
     """
     Convert specified columns to the desired data type.
     
     Parameters:
     -----------
-    df : pandas.DataFrame
+    data : pandas.DataFrame
         The input dataframe
     columns : str or list
         Single column name or list of column names to convert
@@ -127,22 +167,22 @@ def convert(df, columns, target_dtype, errors='ignore', inplace=True):
         columns = [columns]
     
     if not inplace:
-        df = df.copy()
+        data = data.copy()
     
     target_pandas_dtype = dtype_mapping[target_dtype.lower()]
     
     for col in columns:
-        if col not in df.columns:
+        if col not in data.columns:
             print(f"Warning: Column '{col}' not found. Skipping.")
             continue
             
         try:
             if target_dtype.lower() in ['float', 'int', 'integer']:
-                df[col] = pd.to_numeric(df[col], errors=errors)
+                data[col] = pd.to_numeric(data[col], errors=errors)
             elif target_dtype.lower() == 'datetime':
-                df[col] = pd.to_datetime(df[col], errors=errors)
+                data[col] = pd.to_datetime(data[col], errors=errors)
             
-            df[col] = df[col].astype(target_pandas_dtype, errors=errors)
+            data[col] = data[col].astype(target_pandas_dtype, errors=errors)
             print(f"Converted '{col}' to {target_pandas_dtype}")
             
         except Exception as e:
@@ -150,4 +190,5 @@ def convert(df, columns, target_dtype, errors='ignore', inplace=True):
             if errors == 'raise':
                 raise
     
-    return df
+    return data
+
