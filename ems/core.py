@@ -5,7 +5,8 @@ import seaborn as sns
 from collections import Counter
 
 
-def generate_dataframe_summary(df, sample_size=5):
+def generate_dataframe_summary(data, sample_size=5):
+    df=data
     """
     Generate a comprehensive summary of a pandas DataFrame.
     
@@ -68,7 +69,8 @@ def generate_dataframe_summary(df, sample_size=5):
     
     return summary
 
-def summary(df, sample_size=5):
+def summary(data, sample_size=5):
+    df=data
     """
     Print a formatted summary of the DataFrame.
     
@@ -124,7 +126,8 @@ def summary(df, sample_size=5):
     sample_df = pd.DataFrame(summary['sample_data'])
     print(sample_df.to_string(index=False))
 
-def correlation(dataframe,method='pearson'):
+def correlation(data,method='pearson'):
+    dataframe=data
     """
     just gives numeric feedback
     in:
@@ -258,8 +261,9 @@ def find_outliers(df, show_rows=False, show_details=False):
         if show_rows and result['outlier_count'] > 5:  # Show preview if many outliers
             print(f"   ... ({result['outlier_count'] - 5} more outliers)")
 
-def pivot_df(df, index=None, columns=None, values=None, aggfunc='mean', 
+def pivot_df(data, index=None, columns=None, values=None, aggfunc='mean', 
                    fill_value=None, margins=False, margins_name='All', dropna=True):
+    df=data
     """
     Pivot a pandas DataFrame with customizable parameters.
     
