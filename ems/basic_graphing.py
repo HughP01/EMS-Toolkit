@@ -1,4 +1,4 @@
-#This file is for basic charts that can be used for basic data exploration and visualasation not to be confused with "graphing.py" which is intended for more advanced graphing
+#This file is for basic charts that can be used for basic data exploration and visualasation not to be confused with "advanced_graphing.py" which is intended for more advanced graphing
 
 import pandas as pd
 import numpy as np
@@ -7,7 +7,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 #corr chart 
-def correlation_chart(dataframe, method='pearson', size=(10,8), cmap='coolwarm'):
+def correlation_chart(data, method='pearson', size=(10,8), cmap='coolwarm'):
+    dataframe=data
     """
     Generate a correlation heatmap from a pandas DataFrame (numeric columns only).
 
@@ -39,7 +40,8 @@ def correlation_chart(dataframe, method='pearson', size=(10,8), cmap='coolwarm')
     plt.show()
 
 
-def analyze_dist(df, figsize=(15, 10)):
+def analyze_dist(data, figsize=(15, 10)):
+    df=data
     """
     Analyze frequency counts and distributions for all columns in a pandas DataFrame.
     
@@ -127,7 +129,8 @@ def analyze_dist(df, figsize=(15, 10)):
         plt.tight_layout()
         plt.show()
 
-def create_boxplot(df, x_col, y_col, title="Box Plot", x_label=None, y_label=None):
+def create_boxplot(data, x_col, y_col, title="Box Plot", x_label=None, y_label=None):
+    df=data
     """
     Creates a box plot using Seaborn.
     
@@ -148,7 +151,8 @@ def create_boxplot(df, x_col, y_col, title="Box Plot", x_label=None, y_label=Non
     plt.tight_layout()
     plt.show()
 
-def box_chart(df, outliers_only=False):
+def box_chart(data, outliers_only=False):
+    df=data
     """Creates a box plot of all numeric columns
 
     Params:
@@ -211,8 +215,9 @@ def box_chart(df, outliers_only=False):
     plt.tight_layout()
     plt.show()
 
-def stacked_chart(df, category_col, value_col, stack_col, title="Stacked Bar Chart", 
+def stacked_chart(data, category_col, value_col, stack_col, title="Stacked Bar Chart", 
                        x_label=None, y_label=None, legend_title=None):
+    df=data
     """
     Creates a stacked bar chart using Pandas and Seaborn styling.
     
