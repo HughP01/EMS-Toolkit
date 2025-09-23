@@ -4,8 +4,15 @@ It is designed to be easily imported into Python, EMS streamlines exploratory da
 # Getting Started
 For usage documentation please find our [Usage Guide](USAGE.md).
 ### Instalation
-- Clone this repo (or download as .zip file and extract)
--
+- Clone this repo (or download as .zip file and extract)<br>
+- Using the folder location on the users system run the following python code at the start of your project:
+- ```python
+  import sys
+  sys.path.append(r"C:\Users\HughP01\EMS Project\Ems-main") # <-- Your file location in the brackets
+  from ems import *
+  ```
+- The project is now installed and you have access to all functions in the EMS Toolkit.
+
 
 # Features
 
