@@ -4,7 +4,7 @@ import pandas as pd
 import plotly.express as px
 
 
-def dot_plot(df, x_col, y_col, hue_col=None, title="Scatter Plot", 
+def dot_plot(data, x_col, y_col, hue_col=None, title="Scatter Plot", 
                  x_label=None, y_label=None, figsize=(10, 6), alpha=0.7, 
                  palette='viridis', save_path=None, reg_line=False,
                  ci=95, reg_color='red', reg_alpha=0.5,
@@ -14,7 +14,7 @@ def dot_plot(df, x_col, y_col, hue_col=None, title="Scatter Plot",
     
     Parameters:
     -----------
-    df : pandas DataFrame
+    data : pandas DataFrame
         The DataFrame containing the data to plot
     x_col : str
         Column name for the x-axis
@@ -58,15 +58,15 @@ def dot_plot(df, x_col, y_col, hue_col=None, title="Scatter Plot",
     
     #Create scatter plot
     if hue_col:
-        ax = sns.scatterplot(data=df, x=x_col, y=y_col, hue=hue_col, 
+        ax = sns.scatterplot(data=data, x=x_col, y=y_col, hue=hue_col, 
                            alpha=alpha, palette=palette)
     else:
-        ax = sns.scatterplot(data=df, x=x_col, y=y_col, 
+        ax = sns.scatterplot(data=data, x=x_col, y=y_col, 
                            alpha=alpha, palette=palette)
     
     #regression line if requested
     if reg_line:
-        sns.regplot(data=df, x=x_col, y=y_col, scatter=False, 
+        sns.regplot(data=data, x=x_col, y=y_col, scatter=False, 
                    ax=ax, color=reg_color, ci=ci,
                    line_kws={
                        'alpha': reg_alpha,
@@ -88,7 +88,7 @@ def dot_plot(df, x_col, y_col, hue_col=None, title="Scatter Plot",
     
     return ax
 
-def world_chart(df, countries, column, 
+def world_chart(data, countries, column, 
                         locationmode='country names',
                         color_scale='Viridis',
                         title=None,
@@ -106,7 +106,7 @@ def world_chart(df, countries, column,
         title = f'World Map - {column} Distribution'
     
     fig = px.choropleth(
-        df,
+        data,
         locations=countries,
         locationmode=locationmode,
         color=column,
@@ -129,14 +129,14 @@ def world_chart(df, countries, column,
     
     return fig
 
-def show_world_chart(df,country,column):
+def show_world_chart(data,country,column):
     """
     generates and displays the choropleth chart
     """
-    fig = world_chart(df, country, column)
+    fig = world_chart(data, country, column)
     fig.show()
 
-def lineplot(df, x_col, y_col, hue_col=None, title="Line Chart", 
+def lineplot(data, x_col, y_col, hue_col=None, title="Line Chart", 
                    x_label=None, y_label=None, figsize=(10, 6), alpha=0.8, 
                    palette='viridis', save_path=None, ci=95, 
                    style_col=None, markers=False, linewidth=2.5,
@@ -146,7 +146,7 @@ def lineplot(df, x_col, y_col, hue_col=None, title="Line Chart",
     
     Parameters:
     -----------
-    df : pandas DataFrame
+    data : pandas DataFrame
         The DataFrame containing the data to plot
     x_col : str
         Column name for the x-axis (should be numeric or datetime)
@@ -193,7 +193,7 @@ def lineplot(df, x_col, y_col, hue_col=None, title="Line Chart",
     plt.figure(figsize=figsize)
     
     #line plot
-    ax = sns.lineplot(data=df, x=x_col, y=y_col, hue=hue_col, style=style_col,
+    ax = sns.lineplot(data=data, x=x_col, y=y_col, hue=hue_col, style=style_col,
                      ci=ci, err_style=err_style, markers=markers, 
                      alpha=alpha, palette=palette, linewidth=linewidth)
     
@@ -211,7 +211,7 @@ def lineplot(df, x_col, y_col, hue_col=None, title="Line Chart",
     ax.grid(True, alpha=0.3)
     
     # Rotate x-axis labels if they're long (useful for datetime)
-    if df[x_col].dtype == 'object' or hasattr(df[x_col].dtype, 'tz'):
+    if data[x_col].dtype == 'object' or hasattr(data[x_col].dtype, 'tz'):
         plt.xticks(rotation=45)
     
     # Adjust layout
