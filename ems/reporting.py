@@ -5,14 +5,14 @@ import numpy as np
 from dotenv import load_dotenv
 from scipy import stats
 
-def corr_report(dataframe, method='pearson'): #Correlation report generation
+def corr_report(data, method='pearson'): #Correlation report generation
     """
     Generate a correlation report with AI-powered business insights
     
     Parameters:
     -----------
-    dataframe : pandas DataFrame
-        Input dataframe with numeric columns
+    data : pandas dataframe
+        Input data with numeric columns
     method : str, optional
         Correlation method ('pearson', 'kendall', 'spearman'), default 'pearson'
     
@@ -22,13 +22,13 @@ def corr_report(dataframe, method='pearson'): #Correlation report generation
     """
     
     # Input validation
-    if not isinstance(dataframe, pd.DataFrame):
-        raise TypeError("Input must be a pandas DataFrame.")
+    if not isinstance(data, pd.DataFrame):
+        raise TypeError("Input must be a pandas data.")
     
     # Select only numeric columns
-    numeric_df = dataframe.select_dtypes(include=[np.number])
+    numeric_df = data.select_dtypes(include=[np.number])
     if numeric_df.empty:
-        raise ValueError("DataFrame has no numeric columns to compute correlation.")
+        raise ValueError("data has no numeric columns to compute correlation.")
     
     # Calculate correlation matrix
     corr = numeric_df.corr(method=method)
@@ -76,14 +76,14 @@ def corr_report(dataframe, method='pearson'): #Correlation report generation
 
     return report_text
 
-def data_quality_report(dataframe):
+def data_quality_report(data):
     """
     Generate a comprehensive data quality assessment with AI-powered insights including outlier detection
     
     Parameters:
     -----------
-    dataframe : pandas DataFrame
-        Input dataframe to analyze
+    data : pandas dataframe
+        Input data to analyze
     
     Returns:
     --------
@@ -91,26 +91,26 @@ def data_quality_report(dataframe):
     """
     
     # Input validation
-    if not isinstance(dataframe, pd.DataFrame):
-        raise TypeError("Input must be a pandas DataFrame.")
+    if not isinstance(data, pd.DataFrame):
+        raise TypeError("Input must be a pandas data.")
     
-    if dataframe.empty:
-        raise ValueError("DataFrame is empty.")
+    if data.empty:
+        raise ValueError("data is empty.")
     
     # Calculate basic metrics
-    missing_values = dataframe.isnull().sum()
-    missing_percentage = (missing_values / len(dataframe)) * 100
-    duplicate_rows = dataframe.duplicated().sum()
-    data_types = dataframe.dtypes
-    numeric_stats = dataframe.describe() if dataframe.select_dtypes(include=[np.number]).shape[1] > 0 else None
+    missing_values = data.isnull().sum()
+    missing_percentage = (missing_values / len(data)) * 100
+    duplicate_rows = data.duplicated().sum()
+    data_types = data.dtypes
+    numeric_stats = data.describe() if data.select_dtypes(include=[np.number]).shape[1] > 0 else None
     
     # Outlier detection for numeric columns
-    numeric_cols = dataframe.select_dtypes(include=[np.number]).columns
+    numeric_cols = data.select_dtypes(include=[np.number]).columns
     outlier_report = {}
     
     for col in numeric_cols:
         # Remove NaN values for outlier calculation
-        col_data = dataframe[col].dropna()
+        col_data = data[col].dropna()
         
         if len(col_data) > 0:
             # IQR method for outliers
@@ -150,7 +150,7 @@ def data_quality_report(dataframe):
         contents=f"""
         You are a senior data analyst. Analyze this data quality assessment and provide actionable insights.
 
-        Dataset Shape: {dataframe.shape}
+        Dataset Shape: {data.shape}
         Missing Values: {dict(missing_values)}
         Missing Percentage: {dict(missing_percentage.round(2))}
         Duplicate Rows: {duplicate_rows}
