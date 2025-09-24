@@ -26,4 +26,6 @@
 - show_world_chart(data,country,column)
 - lineplot(data, x_col, y_col, hue_col=None, title="Line Chart",  x_label=None, y_label=None, figsize=(10, 6), alpha=0.8, palette='viridis', save_path=None, ci=95, style_col=None, markers=False, linewidth=2.5,err_style='band', err_alpha=0.3)
 ## Report Generation
+- corr_report(dataframe, method='pearson')
+- data_quality_report(data)
 ## Machine Learning
