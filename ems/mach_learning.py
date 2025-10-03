@@ -344,14 +344,15 @@ def Regr(df, model, use="CPU", target=None, test_size=0.2, random_state=42,
 def Classif(df, model, use="CPU", target=None, test_size=0.2, random_state=42, 
          preprocess=True, scale_features=True, verbose=True):
     """
-    Builds and evaluates a regression model pipeline with automated preprocessing.
+    Builds and evaluates a classification model pipeline with automated preprocessing.
     
     Parameters:
     -----------
     df : pandas.DataFrame
         Input DataFrame containing both features and target variable
     model : sklearn estimator object or str
-        Classification model to use.
+        Classification model to use. If string, will map to appropriate model.
+        Supported strings: "Logistic", "RandomForest", "XGBoost", "SVC", "DecisionTree", "GradientBoosting"
     use : str, optional, default="CPU"
         Computational hardware to use. Options: "CPU" or "GPU" 
     target : str, optional, default=None
@@ -367,5 +368,180 @@ def Classif(df, model, use="CPU", target=None, test_size=0.2, random_state=42,
         Whether to scale numeric features (standardization)
     verbose : bool, optional, default=True
         Whether to print detailed progress and evaluation metrics
+    
+    Returns:
+    --------
+    dict : Dictionary containing trained model, preprocessing objects, 
+           and evaluation metrics
     """
-    print("Under Construction")
+    
+    # Import classification metrics
+    from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, classification_report, confusion_matrix
+    
+    # Validate inputs
+    if target is None:
+        raise ValueError("Target variable name must be provided")
+    
+    if target not in df.columns:
+        raise ValueError(f"Target variable '{target}' not found in DataFrame columns")
+    
+    if use not in ["CPU", "GPU"]:
+        raise ValueError("use parameter must be 'CPU' or 'GPU'")
+    
+    # Handle string model inputs
+    if isinstance(model, str):
+        model = _get_model_from_string(model, "classification", use, random_state)
+    
+    if verbose:
+        print("=" * 50)
+        print("CLASSIFICATION PIPELINE INITIALIZED")
+        print("=" * 50)
+        print(f"Dataset shape: {df.shape}")
+        print(f"Target variable: {target}")
+        print(f"Using: {use}")
+        print(f"Model: {type(model).__name__}")
+    
+    # Create copy to avoid modifying original data
+    df_processed = df.copy()
+    
+    # Separate features and target
+    X = df_processed.drop(columns=[target])
+    y = df_processed[target]
+    
+    if verbose:
+        print(f"Features: {X.shape[1]}")
+        print(f"Target classes: {y.nunique()}")
+        print("Target distribution:")
+        print(y.value_counts())
+    
+    # Preprocessing pipeline
+    preprocessing_objects = {}
+    
+    if preprocess:
+        if verbose:
+            print("\n--- PREPROCESSING ---")
+        
+        # Handle missing values
+        numeric_cols = X.select_dtypes(include=[np.number]).columns
+        categorical_cols = X.select_dtypes(include=['object', 'category']).columns
+        
+        # Numeric imputation
+        if not numeric_cols.empty and X[numeric_cols].isnull().any().any():
+            numeric_imputer = SimpleImputer(strategy='median')
+            X[numeric_cols] = numeric_imputer.fit_transform(X[numeric_cols])
+            preprocessing_objects['numeric_imputer'] = numeric_imputer
+            if verbose:
+                print(f"Applied median imputation to {len(numeric_cols)} numeric features")
+        
+        # Categorical imputation and encoding
+        if not categorical_cols.empty:
+            # Handle missing categorical values
+            if X[categorical_cols].isnull().any().any():
+                X[categorical_cols] = X[categorical_cols].fillna('Missing')
+                if verbose:
+                    print("Filled missing categorical values with 'Missing'")
+            
+            # Encode categorical variables
+            label_encoders = {}
+            for col in categorical_cols:
+                le = LabelEncoder()
+                X[col] = le.fit_transform(X[col].astype(str))
+                label_encoders[col] = le
+            
+            preprocessing_objects['label_encoders'] = label_encoders
+            if verbose:
+                print(f"Label encoded {len(categorical_cols)} categorical features")
+    
+    # Feature scaling
+    if scale_features:
+        if verbose:
+            print("\n--- FEATURE SCALING ---")
+        
+        scaler = StandardScaler()
+        X_scaled = scaler.fit_transform(X)
+        X = pd.DataFrame(X_scaled, columns=X.columns, index=X.index)
+        preprocessing_objects['scaler'] = scaler
+        if verbose:
+            print("Applied StandardScaler to all features")
+    
+    # Train-test split
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, test_size=test_size, random_state=random_state, shuffle=True, stratify=y
+    )
+    
+    if verbose:
+        print(f"\n--- DATA SPLITTING ---")
+        print(f"Training set: {X_train.shape[0]} samples")
+        print(f"Testing set: {X_test.shape[0]} samples")
+        print("Training set class distribution:")
+        print(y_train.value_counts())
+        print("Testing set class distribution:")
+        print(y_test.value_counts())
+    
+    # Model training
+    if verbose:
+        print(f"\n--- MODEL TRAINING ---")
+    
+    model.fit(X_train, y_train)
+    
+    # Predictions
+    y_pred_train = model.predict(X_train)
+    y_pred_test = model.predict(X_test)
+    
+    # Calculate metrics
+    metrics = {
+        'train': {
+            'Accuracy': accuracy_score(y_train, y_pred_train),
+            'Precision': precision_score(y_train, y_pred_train, average='weighted', zero_division=0),
+            'Recall': recall_score(y_train, y_pred_train, average='weighted', zero_division=0),
+            'F1-Score': f1_score(y_train, y_pred_train, average='weighted', zero_division=0)
+        },
+        'test': {
+            'Accuracy': accuracy_score(y_test, y_pred_test),
+            'Precision': precision_score(y_test, y_pred_test, average='weighted', zero_division=0),
+            'Recall': recall_score(y_test, y_pred_test, average='weighted', zero_division=0),
+            'F1-Score': f1_score(y_test, y_pred_test, average='weighted', zero_division=0)
+        }
+    }
+    
+    # Print results
+    if verbose:
+        print(f"\n--- MODEL EVALUATION ---")
+        print("TRAINING SET:")
+        print(f"  Accuracy:  {metrics['train']['Accuracy']:.4f}")
+        print(f"  Precision: {metrics['train']['Precision']:.4f}")
+        print(f"  Recall:    {metrics['train']['Recall']:.4f}")
+        print(f"  F1-Score:  {metrics['train']['F1-Score']:.4f}")
+        
+        print("\nTEST SET:")
+        print(f"  Accuracy:  {metrics['test']['Accuracy']:.4f}")
+        print(f"  Precision: {metrics['test']['Precision']:.4f}")
+        print(f"  Recall:    {metrics['test']['Recall']:.4f}")
+        print(f"  F1-Score:  {metrics['test']['F1-Score']:.4f}")
+        
+        print(f"\n--- DETAILED CLASSIFICATION REPORT ---")
+        print("Test Set Classification Report:")
+        print(classification_report(y_test, y_pred_test, zero_division=0))
+        
+        print("Confusion Matrix (Test Set):")
+        print(confusion_matrix(y_test, y_pred_test))
+        
+        print("\n" + "=" * 50)
+        print("CLASSIFICATION PIPELINE COMPLETED SUCCESSFULLY")
+        print("=" * 50)
+    
+    # Return comprehensive results
+    return {
+        'model': model,
+        'preprocessing_objects': preprocessing_objects,
+        'metrics': metrics,
+        'feature_names': X.columns.tolist(),
+        'X_train': X_train,
+        'X_test': X_test,
+        'y_train': y_train,
+        'y_test': y_test,
+        'y_pred_train': y_pred_train,
+        'y_pred_test': y_pred_test,
+        'model_type': 'classification',
+        'classes': y.unique().tolist()
+    }
