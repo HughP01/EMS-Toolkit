@@ -8,6 +8,52 @@ from sklearn.impute import SimpleImputer
 import warnings
 warnings.filterwarnings('ignore')
 
+def _gpu_check():
+    print("\n=== GPU Detection ===")
+    print("running...")
+    print("")
+    gpu_found = False
+    Cuda_Ver=0.0
+    TFCuda_Ver=0.0
+    dev_name= None
+    #PyTorch TEST
+    try:
+        import torch
+        if torch.cuda.is_available():
+            print("✅ PyTorch detects GPU")
+            gpu_found = True
+            Cuda_Ver= torch.version.cuda
+        else:
+            print("❌ PyTorch does not detect GPU")
+    except ImportError:
+        print("⚠️  PyTorch not installed")
+    
+    #TensorFlow test
+    try:
+        import tensorflow as tf
+        gpus = tf.config.list_physical_devices('GPU')
+        if gpus:
+            print("✅ TensorFlow detects GPU")
+            gpu_found = True
+            dev_name = tf.test.gpu_device_name()
+            TFCuda_Ver= tf.sysconfig.get_build_info()["cuda_version"]
+        else:
+            print("❌ TensorFlow does not detect GPU")
+    except ImportError:
+        print("⚠️  TensorFlow not installed")
+    
+    #CUDA deets
+    print("Cuda version (PyTorch):",Cuda_Ver)
+    print("Cuda version (TensorFlow):",TFCuda_Ver)
+    print("Device Name (TensorFlow):",dev_name)
+    return gpu_found
+
+
+def gpu_check():
+    #Run comprehensive check
+    result = _gpu_check()
+    print(f"\n Final Result: {'GPU AVAILABLE' if result else 'NO GPU DETECTED'}")
+
 def _get_model_from_string(model_str, model_type, use, random_state):
     """
     Helper function to get model instance from string for both regression and classification.
