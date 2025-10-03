@@ -45,6 +45,13 @@ from ems import *
 - **Correlation Reports**: Detailed correlation analysis using Gemini
 - **Data Quality Reports**: Comprehensive data assessment and quality metrics
 
+### Machine Learning Tools
+- Check if a GPU is avaliable for machine learning (Note: EMS will default to CPU)
+
+### Machine Learning Pipelines
+- **Regression Models**:
+- **Classification Models**:
+
 # To-Do
 Filtering and subsetting rows.<br>
 Sorting and ranking.<br>
@@ -57,5 +64,4 @@ Interactive dashboards.<br>
 Automated reporting (PDF, HTML, notebooks).
 #### Testing 
 Hypothesis testing (t-tests, chi-square, ANOVA)
-Regression models (linear, logistic, etc.).
 Classification Models
