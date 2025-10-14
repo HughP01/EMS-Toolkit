@@ -194,7 +194,8 @@ def data_check(data, detail=False):
         print("No missing values or duplicates found in detailed check.")
 
 #Identify Potential Outliers
-def find_outliers(df, show_rows=False, show_details=False):
+def find_outliers(data, show_rows=False, show_details=False):
+    df=data
     """
     Find outliers in each column of a pandas DataFrame using the IQR method.
     
