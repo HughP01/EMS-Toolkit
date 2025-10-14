@@ -1,7 +1,7 @@
 # Data Analysis Toolkit Documentation
 ## Core Functions
 
-### generate_dataframe_summary
+### generate_dataframe_summary()
 
 **Description:**  
 Generates a comprehensive statistical summary of a pandas DataFrame as a structured dictionary.
@@ -23,7 +23,7 @@ Generates a comprehensive statistical summary of a pandas DataFrame as a structu
 
 ---
 
-### summary
+### summary()
 
 **Description:**  
 Prints a formatted, human-readable summary of the DataFrame to console output.
@@ -44,7 +44,7 @@ Formatted console output including:
 
 ---
 
-### correlation
+### correlation()
 
 **Description:**  
 Computes correlation matrix for numeric columns in the DataFrame.
@@ -62,7 +62,7 @@ Computes correlation matrix for numeric columns in the DataFrame.
 
 ---
 
-### data_check
+### data_check()
 
 **Description:**  
 Performs data quality checks for missing values and duplicate rows.
@@ -80,13 +80,13 @@ Console output showing:
 
 ---
 
-### find_outliers
+### find_outliers()
 
 **Description:**  
 Identifies outliers in numeric columns using the Interquartile Range (IQR) method.
 
 **Parameters:**
-- `df` (pd.DataFrame): Input DataFrame to analyze
+- `data` (pd.DataFrame): Input DataFrame to analyze
 - `show_rows` (bool): If True, displays actual outlier values and their indices
 - `show_details` (bool): If True, shows detailed statistical information including quartiles and fences
 
