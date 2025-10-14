@@ -1,6 +1,5 @@
-# How to use
-## Core Functions
 # Data Analysis Toolkit Documentation
+## Core Functions
 
 ### generate_dataframe_summary
 
