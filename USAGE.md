@@ -101,7 +101,7 @@ Console report showing for each numeric column with outliers:
 
 ---
 
-### pivot_df
+### pivot_df()
 
 **Description:**  
 Creates a pivot table from DataFrame with extensive customization options.
@@ -128,7 +128,7 @@ Creates a pivot table from DataFrame with extensive customization options.
 
 ---
 
-### unique
+### unique()
 
 **Description:**  
 Analyzes and displays unique values and their frequencies from various data structures.
@@ -144,14 +144,158 @@ Console output showing for each column or data series:
 - Values sorted by frequency (most common first)
 
 ## Preprocessing
-- handle_missing_values(data, strategy='avg', columns=None)
-- remove_duplicates(data, subset=None)
-- drop_columns(data, columns_to_drop)
-- standardize(data, columns=None)
-- normalize(data, columns=None)
-- log_transform(data, columns, add_one=True)
-- remove_outliers_iqr(data, columns=None, threshold=1)
-- convert(data, columns, target_dtype, errors='ignore', inplace=True)
+
+### handle_missing_values()
+
+**Description:**  
+Handles missing values in a pandas DataFrame using specified strategies.
+
+**Parameters:**
+- `data` (pd.DataFrame): Input DataFrame
+- `strategy` (str): Handling method - 'avg' (mean/mode imputation) or 'drop' (row removal)
+- `columns` (list): Specific columns to process. If None, applies to all columns
+
+**Returns:**
+- `pd.DataFrame`: DataFrame with missing values handled
+
+**Raises:**
+- `ValueError`: If specified columns not found or invalid strategy provided
+
+**Strategy Details:**
+- 'avg': Numeric columns filled with mean, categorical columns filled with mode
+- 'drop': Rows with missing values in specified columns are removed
+
+---
+
+### remove_duplicates()
+
+**Description:**  
+Removes duplicate rows from DataFrame.
+
+**Parameters:**
+- `data` (pd.DataFrame): Input DataFrame
+- `subset` (list): Columns to consider for duplicate identification. If None, uses all columns
+
+**Returns:**
+- `pd.DataFrame`: DataFrame with duplicates removed (keeps first occurrence)
+
+---
+
+### drop_columns()
+
+**Description:**  
+Removes specified columns from DataFrame.
+
+**Parameters:**
+- `data` (pd.DataFrame): Input DataFrame
+- `columns_to_drop` (list): Column names to remove
+
+**Returns:**
+- `pd.DataFrame`: DataFrame with specified columns removed
+
+**Note:** Ignores non-existent columns without raising errors
+
+---
+
+### standardize()
+
+**Description:**  
+Applies z-score normalization to numeric columns (mean=0, std=1).
+
+**Parameters:**
+- `data` (pd.DataFrame): Input DataFrame
+- `columns` (list): Specific numeric columns to standardize. If None, processes all numeric columns
+
+**Returns:**
+- `pd.DataFrame`: DataFrame with standardized columns
+
+---
+
+### normalize()
+
+**Description:**  
+Applies min-max normalization to numeric columns (scales to 0-1 range).
+
+**Parameters:**
+- `data` (pd.DataFrame): Input DataFrame
+- `columns` (list): Specific numeric columns to normalize. If None, processes all numeric columns
+
+**Returns:**
+- `pd.DataFrame`: DataFrame with normalized columns
+
+---
+
+### log_transform()
+
+**Description:**  
+Applies logarithmic transformation to specified columns.
+
+**Parameters:**
+- `data` (pd.DataFrame): Input DataFrame
+- `columns` (list): Columns to transform
+- `add_one` (bool): If True, uses log1p to handle zeros by adding 1 before transformation
+
+**Returns:**
+- `pd.DataFrame`: DataFrame with log-transformed columns
+
+---
+
+### remove_outliers_iqr()
+
+**Description:**  
+Removes outliers using Interquartile Range method.
+
+**Parameters:**
+- `data` (pd.DataFrame): Input DataFrame
+- `columns` (list): Specific numeric columns to process. If None, processes all numeric columns
+- `threshold` (float): IQR multiplier for outlier detection (default: 1.5)
+
+**Returns:**
+- `pd.DataFrame`: DataFrame with outliers removed
+
+**Method:**
+- Lower bound: Q1 - threshold × IQR
+- Upper bound: Q3 + threshold × IQR
+
+---
+
+### winsorize()
+
+**Description:**  
+Winsorizes outliers by capping at specified percentiles.
+
+**Parameters:**
+- `data` (pd.DataFrame): Input DataFrame
+- `columns` (list): Specific columns to winsorize. If None, processes all numeric columns
+- `limits` (list): Lower and upper percentile limits [lower_limit, upper_limit] (default: [0.05, 0.05])
+
+**Note:** Function implementation pending
+
+---
+
+### convert()
+
+**Description:**  
+Converts specified columns to target data types with comprehensive error handling.
+
+**Parameters:**
+- `data` (pd.DataFrame): Input DataFrame
+- `columns` (str or list): Column name(s) to convert
+- `target_dtype` (str): Target data type: 'string', 'float', 'int', 'object', 'category', 'datetime'
+- `errors` (str): Error handling: 'raise', 'coerce', 'ignore' (default: 'ignore')
+- `inplace` (bool): If True, modifies original DataFrame (default: True)
+
+**Returns:**
+- `pd.DataFrame`: DataFrame with converted columns
+
+**Supported Data Types:**
+- Numeric: 'float', 'int'
+- Text: 'string', 'object'
+- Special: 'category', 'datetime'
+
+**Raises:**
+- `ValueError`: If unsupported target_dtype provided
+
 ## Graphing
 - correlation_chart(data, method='pearson', size=(10,8), cmap='coolwarm')
 - analyze_dist(data, figsize=(15, 10))
