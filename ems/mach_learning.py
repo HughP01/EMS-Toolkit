@@ -151,8 +151,9 @@ def _get_model_from_string(model_str, model_type, use, random_state):
 
 #Regression Model
 
-def Regr(df, model, use="CPU", target=None, test_size=0.2, random_state=42, 
+def Regr(data, model, use="CPU", target=None, test_size=0.2, random_state=42, 
          preprocess=True, scale_features=True, verbose=True):
+    df=data
     """
     Builds and evaluates a regression model pipeline with automated preprocessing.
     
@@ -341,8 +342,9 @@ def Regr(df, model, use="CPU", target=None, test_size=0.2, random_state=42,
 
 
 #Classif Mods
-def Classif(df, model, use="CPU", target=None, test_size=0.2, random_state=42, 
+def Classif(data, model, use="CPU", target=None, test_size=0.2, random_state=42, 
          preprocess=True, scale_features=True, verbose=True):
+    df=data
     """
     Builds and evaluates a classification model pipeline with automated preprocessing.
     
