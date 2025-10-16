@@ -306,7 +306,75 @@ Converts specified columns to target data types with comprehensive error handlin
 - world_chart(data, countries, column, locationmode='country names', color_scale='Viridis', title=None, width=1000, height=600)
 - show_world_chart(data,country,column)
 - lineplot(data, x_col, y_col, hue_col=None, title="Line Chart",  x_label=None, y_label=None, figsize=(10, 6), alpha=0.8, palette='viridis', save_path=None, ci=95, style_col=None, markers=False, linewidth=2.5,err_style='band', err_alpha=0.3)
+
 ## Report Generation
-- corr_report(dataframe, method='pearson')
-- data_quality_report(data)
+
+### corr_report()
+
+**Description:**  
+Generates an AI-powered correlation analysis report with business insights using Google's Gemini API.
+
+**Parameters:**
+- `data` (pd.DataFrame): Input DataFrame containing numeric columns for correlation analysis
+- `method` (str): Correlation calculation method - 'pearson', 'kendall', or 'spearman' (default: 'pearson')
+
+**Returns:**
+- `str`: AI-generated correlation analysis report in plain text format
+
+**Raises:**
+- `TypeError`: If input is not a pandas DataFrame
+- `ValueError`: If DataFrame contains no numeric columns or GEMINI_API_KEY is missing
+
+**Report Structure:**
+- Strongest positive and negative correlations
+- Key business insights for strongest relationships
+- Unexpected findings with potential explanations
+- Actionable recommendations for further analysis
+
+**Dependencies:**
+- Requires GEMINI_API_KEY in environment variables
+- Uses Google Gemini 2.5 Flash model for AI analysis
+
+**Output:**
+Formatted console display with cleaned text suitable for .txt file export
+
+---
+
+### data_quality_report()
+
+**Description:**  
+Generates a comprehensive AI-powered data quality assessment report including outlier detection and cleaning recommendations.
+
+**Parameters:**
+- `data` (pd.DataFrame): Input DataFrame to analyze for data quality issues
+
+**Returns:**
+- `str`: AI-generated data quality assessment report in plain text format
+
+**Raises:**
+- `TypeError`: If input is not a pandas DataFrame
+- `ValueError`: If DataFrame is empty or GEMINI_API_KEY is missing
+
+**Analysis Includes:**
+- Missing values statistics and percentages
+- Duplicate row count
+- Data type distribution
+- Descriptive statistics for numeric columns
+- Outlier detection using IQR and Z-score methods
+- Outlier counts and percentages per numeric column
+
+**Report Structure:**
+- Critical data quality issues identification
+- Impact assessment on analysis and business decisions
+- Specific cleaning recommendations
+- Priority order for issue resolution
+- Outlier context analysis (errors vs legitimate extremes)
+
+**Dependencies:**
+- Requires GEMINI_API_KEY in environment variables
+- Uses Google Gemini 2.5 Flash model for AI analysis
+- Uses scipy.stats for Z-score calculations
+
+**Output:**
+Formatted console display with cleaned text suitable for .txt file export
 ## Machine Learning
