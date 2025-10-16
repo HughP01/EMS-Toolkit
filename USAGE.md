@@ -1,5 +1,5 @@
 # Data Analysis Toolkit Documentation
-## Core Functions
+# Core Functions
 
 ### generate_dataframe_summary()
 
@@ -143,7 +143,7 @@ Console output showing for each column or data series:
 - Total count of unique values
 - Values sorted by frequency (most common first)
 
-## Preprocessing
+# Preprocessing
 
 ### handle_missing_values()
 
@@ -296,7 +296,7 @@ Converts specified columns to target data types with comprehensive error handlin
 **Raises:**
 - `ValueError`: If unsupported target_dtype provided
 
-## Graphing
+# Graphing
 - correlation_chart(data, method='pearson', size=(10,8), cmap='coolwarm')
 - analyze_dist(data, figsize=(15, 10))
 - create_boxplot(data, x_col, y_col, title="Box Plot", x_label=None, y_label=None)
@@ -307,7 +307,7 @@ Converts specified columns to target data types with comprehensive error handlin
 - show_world_chart(data,country,column)
 - lineplot(data, x_col, y_col, hue_col=None, title="Line Chart",  x_label=None, y_label=None, figsize=(10, 6), alpha=0.8, palette='viridis', save_path=None, ci=95, style_col=None, markers=False, linewidth=2.5,err_style='band', err_alpha=0.3)
 
-## Report Generation
+# Report Generation
 
 ### corr_report()
 
@@ -377,4 +377,144 @@ Generates a comprehensive AI-powered data quality assessment report including ou
 
 **Output:**
 Formatted console display with cleaned text suitable for .txt file export
-## Machine Learning
+
+
+# Machine Learning
+
+### gpu_check()
+
+**Description:**  
+Performs comprehensive GPU detection and verification for PyTorch and TensorFlow frameworks.
+
+**Parameters:**  
+None
+
+**Returns:**  
+- `bool`: True if GPU is available in either framework, False otherwise
+
+**Output:**  
+Detailed console report including:
+- PyTorch GPU detection status
+- TensorFlow GPU detection status
+- CUDA version information for both frameworks
+- TensorFlow device name
+- Final GPU availability summary
+
+---
+
+### _get_model_from_string()
+
+**Description:**  
+Internal helper function that instantiates machine learning models from string identifiers for both regression and classification tasks.
+
+**Parameters:**
+- `model_str` (str): Model identifier string
+- `model_type` (str): Type of model - "regression" or "classification"
+- `use` (str): Computational hardware - "CPU" or "GPU"
+- `random_state` (int): Random seed for reproducibility
+
+**Returns:**
+- `sklearn estimator`: Instantiated model object
+
+**Supported Regression Models:**
+- "linear": LinearRegression
+- "randomforest": RandomForestRegressor
+- "xgboost": XGBRegressor (with GPU support when available)
+- "svr": SVR
+- "decisiontree": DecisionTreeRegressor
+- "gradientboosting": GradientBoostingRegressor
+
+**Supported Classification Models:**
+- "logistic": LogisticRegression
+- "randomforest": RandomForestClassifier
+- "xgboost": XGBClassifier (with GPU support when available)
+- "svc": SVC
+- "decisiontree": DecisionTreeClassifier
+- "gradientboosting": GradientBoostingClassifier
+
+**Raises:**
+- `ValueError`: If unsupported model type or model string provided
+
+---
+
+### Regr()
+
+**Description:**  
+End-to-end regression model pipeline with automated preprocessing, training, and evaluation.
+
+**Parameters:**
+- `data` (pd.DataFrame): Input DataFrame containing features and target variable
+- `model` (sklearn estimator or str): Regression model or model string identifier
+- `use` (str): Computational hardware - "CPU" or "GPU" (default: "CPU")
+- `target` (str): Name of target variable column (required)
+- `test_size` (float): Proportion of data for testing (default: 0.2)
+- `random_state` (int): Random seed for reproducibility (default: 42)
+- `preprocess` (bool): Enable automated preprocessing (default: True)
+- `scale_features` (bool): Enable feature scaling (default: True)
+- `verbose` (bool): Enable detailed progress output (default: True)
+
+**Returns:**
+- `dict`: Comprehensive results dictionary containing:
+  - Trained model object
+  - Preprocessing objects (imputers, scalers, encoders)
+  - Training and test metrics (MAE, MSE, RMSE, R²)
+  - Feature names
+  - Training and test datasets
+  - Predictions
+  - Model type identifier
+
+**Preprocessing Pipeline:**
+- Median imputation for numeric missing values
+- "Missing" value imputation for categorical variables
+- Label encoding for categorical features
+- Standard scaling for numeric features (optional)
+
+**Evaluation Metrics:**
+- Mean Absolute Error (MAE)
+- Mean Squared Error (MSE)
+- Root Mean Squared Error (RMSE)
+- R-squared (R²)
+
+---
+
+### Classif()
+
+**Description:**  
+End-to-end classification model pipeline with automated preprocessing, training, and evaluation.
+
+**Parameters:**
+- `data` (pd.DataFrame): Input DataFrame containing features and target variable
+- `model` (sklearn estimator or str): Classification model or model string identifier
+- `use` (str): Computational hardware - "CPU" or "GPU" (default: "CPU")
+- `target` (str): Name of target variable column (required)
+- `test_size` (float): Proportion of data for testing (default: 0.2)
+- `random_state` (int): Random seed for reproducibility (default: 42)
+- `preprocess` (bool): Enable automated preprocessing (default: True)
+- `scale_features` (bool): Enable feature scaling (default: True)
+- `verbose` (bool): Enable detailed progress output (default: True)
+
+**Returns:**
+- `dict`: Comprehensive results dictionary containing:
+  - Trained model object
+  - Preprocessing objects (imputers, scalers, encoders)
+  - Training and test metrics (Accuracy, Precision, Recall, F1-Score)
+  - Feature names
+  - Training and test datasets
+  - Predictions
+  - Model type identifier
+  - Class labels
+
+**Preprocessing Pipeline:**
+- Median imputation for numeric missing values
+- "Missing" value imputation for categorical variables
+- Label encoding for categorical features
+- Standard scaling for numeric features (optional)
+- Stratified train-test split for balanced class distribution
+
+**Evaluation Metrics:**
+- Accuracy
+- Precision (weighted average)
+- Recall (weighted average)
+- F1-Score (weighted average)
+- Detailed classification report
+- Confusion matrix
