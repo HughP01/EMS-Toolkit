@@ -369,3 +369,58 @@ def unique(data, columns=None):
     
     else:
         print("Unsupported data type. Please provide a DataFrame, list, or array.")
+
+#Built in usage Guides
+def exploratory_data_analysis_guide():
+    """Quick EDA workflow guide"""
+    print("EDA QUICK GUIDE")
+    print("1. Start with: summary(df)")
+    print("2. Check quality: data_check(df)")
+    print("3. Find outliers: find_outliers(df)")
+    print("4. View correlations: correlation(df)")
+    print("5. See unique values: unique(df, 'column_name')")
+
+def data_cleaning_guide():
+    """Data cleaning pipeline guide"""
+    print("CLEANING GUIDE")
+    print("1. Handle missing: handle_missing_values(df, 'avg')")
+    print("2. Remove duplicates: remove_duplicates(df)")
+    print("3. Drop columns: drop_columns(df, ['col1', 'col2'])")
+    print("4. Fix data types: convert(df, 'column', 'numeric')")
+
+def preprocessing_guide():
+    """Feature preprocessing guide"""
+    print("PREPROCESSING GUIDE")
+    print("Standardize: standardize(df)")
+    print("Normalize: normalize(df)")
+    print("Log transform: log_transform(df, ['skewed_col'])")
+    print("Remove outliers: remove_outliers_iqr(df)")
+
+def visualization_guide():
+    """Quick visualization guide"""
+    print("VISUALIZATION GUIDE")
+    print("Distributions: analyze_dist(df)")
+    print("Correlations: correlation_chart(df)")
+    print("Box plots: box_chart(df)")
+    print("Scatter plot: dot_plot(df, 'x_col', 'y_col')")
+
+def ml_guide():
+    """Machine learning quick guide"""
+    print("ML GUIDE")
+    print("Check GPU: gpu_check()")
+    print("Regression: Regr(df, 'randomforest', target='y')")
+    print("Classification: Classif(df, 'xgboost', target='class')")
+
+def reporting_guide():
+    """AI reporting guide"""
+    print("REPORTING GUIDE")
+    print("Correlation insights: corr_report(df)")
+    print("Data quality: data_quality_report(df)")
+
+# Usage examples
+def common_workflows():
+    """Common analysis workflows"""
+    print("COMMON WORKFLOWS")
+    print("Quick profiling: exploratory_data_analysis_guide()")
+    print("ML preparation: preprocessing_guide() + ml_guide()")
+    print("Reporting: reporting_guide()")
