@@ -417,10 +417,19 @@ def reporting_guide():
     print("Correlation insights: corr_report(df)")
     print("Data quality: data_quality_report(df)")
 
-# Usage examples
 def common_workflows():
     """Common analysis workflows"""
     print("COMMON WORKFLOWS")
     print("Quick profiling: exploratory_data_analysis_guide()")
     print("ML preparation: preprocessing_guide() + ml_guide()")
     print("Reporting: reporting_guide()")
+    
+def quick_start_guide():
+    """Complete beginner guide"""
+    print("QUICK START")
+    print("1. exploratory_data_analysis_guide()")
+    print("2. data_cleaning_guide()") 
+    print("3. visualization_guide()")
+    print("4. ml_guide() for modeling")
+    print("")
+    print("Visit https://github.com/HughP01/EMS-Toolkit for more")
