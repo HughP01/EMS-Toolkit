@@ -45,7 +45,8 @@ The project is now installed and you have access to all functions in the EMS Too
 - Calculate correlation matrices
 - Perform frequency counts and distribution analysis
 - Identify and analyze outliers
-- Pivoting and data reshaping
+- Pivot tables for grouping and aggregation (sums, averages, counts, etc.)
+- Data reshaping
 
 ### Data Transformation
 - Normalize and standardize data
@@ -72,8 +73,6 @@ The project is now installed and you have access to all functions in the EMS Too
 # To-Do
 Filtering and subsetting rows.<br>
 Sorting and ranking.<br>
-Grouping and aggregation (sums, averages, counts, etc.).<br>
-reshaping (wide vs long format).<br>
 Feature engineering (e.g., creating ratios, lags, rolling averages).<br>
 Plotting Time series<br>
 Interactive dashboards.<br>
