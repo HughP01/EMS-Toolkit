@@ -11,7 +11,20 @@ import sys
 sys.path.append(r"C:\Users\HughP01\EMS-Toolkit") # <-- Your file location in the brackets
 from ems import *
 ```
-- The project is now installed and you have access to all functions in the EMS Toolkit.
+### Installation Verification
+After installing the module, verify everything is working correctly with this simple test:
+
+```python
+from ems import marco
+marco()
+```
+
+If the installation was successful, you should see:
+```python
+polo
+```
+
+The project is now installed and you have access to all functions in the EMS Toolkit.
 
 
 # Features
