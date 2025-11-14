@@ -297,15 +297,161 @@ Converts specified columns to target data types with comprehensive error handlin
 - `ValueError`: If unsupported target_dtype provided
 
 # Graphing
-- correlation_chart(data, method='pearson', size=(10,8), cmap='coolwarm')
-- analyze_dist(data, figsize=(15, 10))
-- create_boxplot(data, x_col, y_col, title="Box Plot", x_label=None, y_label=None)
-- box_chart(data, outliers_only=False)
-- stacked_chart(data, category_col, value_col, stack_col, title="Stacked Bar Chart", x_label=None, y_label=None, legend_title=None)
-- dot_plot(data, x_col, y_col, hue_col=None, title="Scatter Plot",x_label=None, y_label=None, figsize=(10, 6), alpha=0.7, palette='viridis', save_path=None, reg_line=False,ci=95, reg_color='red', reg_alpha=0.5,reg_width=2)
-- world_chart(data, countries, column, locationmode='country names', color_scale='Viridis', title=None, width=1000, height=600)
-- show_world_chart(data,country,column)
-- lineplot(data, x_col, y_col, hue_col=None, title="Line Chart",  x_label=None, y_label=None, figsize=(10, 6), alpha=0.8, palette='viridis', save_path=None, ci=95, style_col=None, markers=False, linewidth=2.5,err_style='band', err_alpha=0.3)
+### correlation_chart()
+
+**Description:**
+Generates a correlation heatmap from numeric columns in a pandas DataFrame.
+
+**Parameters:**
+- `data` (pd.DataFrame): The data to analyze
+- `method` (str): Correlation method - 'pearson', 'kendall', or 'spearman' (default: 'pearson')
+- `size` (tuple): Figure size for the plot (default: (10,8))
+- `cmap` (str): Seaborn colormap (default: 'coolwarm')
+
+**Returns:**
+- matplotlib.figure.Figure: The heatmap figure
+
+---
+
+### analyze_dist()
+
+**Description:**
+Analyzes frequency counts and distributions for all columns in a DataFrame, displaying both numeric and categorical variables.
+
+**Parameters:**
+- `data` (pd.DataFrame): Input DataFrame
+- `figsize` (tuple): Figure size for the plots (default: (15,10))
+
+---
+
+### create_boxplot()
+
+**Description:**
+Creates a box plot comparing a categorical variable against a numerical variable.
+
+**Parameters:**
+- `data` (pd.DataFrame): Pandas DataFrame containing the data
+- `x_col` (str): Column name for the x-axis (categorical variable)
+- `y_col` (str): Column name for the y-axis (numerical variable)
+- `title` (str): Title of the plot (default: "Box Plot")
+- `x_label` (str): Label for the x-axis (uses x_col if None)
+- `y_label` (str): Label for the y-axis (uses y_col if None)
+
+---
+
+### box_chart()
+
+**Description:**
+Creates box plots for all numeric columns in the DataFrame, with optional filtering for outliers.
+
+**Parameters:**
+- `data` (pd.DataFrame): Input DataFrame
+- `outliers_only` (bool): Only show columns that contain outliers (default: False)
+
+---
+
+### stacked_chart()
+
+**Description:**
+Creates a stacked bar chart showing composition of categories using Pandas and Seaborn styling.
+
+**Parameters:**
+- `data` (pd.DataFrame): Pandas DataFrame containing the data
+- `category_col` (str): Column name for the main categories (x-axis)
+- `value_col` (str): Column name for the values (y-axis)
+- `stack_col` (str): Column name for the stacking categories
+- `title` (str): Title of the plot (default: "Stacked Bar Chart")
+- `x_label` (str): Label for the x-axis (uses category_col if None)
+- `y_label` (str): Label for the y-axis (uses value_col if None)
+- `legend_title` (str): Title for the legend (uses stack_col if None)
+
+
+### dot_plot()
+
+**Description:**
+Create a scatter plot using Seaborn with optional regression line and confidence intervals.
+
+**Parameters:**
+- `data` (pandas DataFrame): The DataFrame containing the data to plot
+- `x_col` (str): Column name for the x-axis
+- `y_col` (str): Column name for the y-axis
+- `hue_col` (str, optional): Column name for color encoding (categorical variable)
+- `title` (str, optional): Title of the plot (default: "Scatter Plot")
+- `x_label` (str, optional): Label for x-axis (default: uses x_col)
+- `y_label` (str, optional): Label for y-axis (default: uses y_col)
+- `figsize` (tuple, optional): Figure size (width, height) in inches (default: (10, 6))
+- `alpha` (float, optional): Transparency of points (default: 0.7)
+- `palette` (str, optional): Color palette name (default: 'viridis')
+- `save_path` (str, optional): Path to save the plot (e.g., 'plot.png')
+- `reg_line` (bool, optional): Whether to add a regression line (default: False)
+- `ci` (int or None, optional): Confidence interval size (e.g., 95 for 95% CI)
+- `reg_color` (str, optional): Color of the regression line (default: 'red')
+- `reg_alpha` (float, optional): Transparency of confidence interval (default: 0.5)
+- `reg_width` (float, optional): Width of the regression line (default: 2)
+
+**Returns:**
+- matplotlib.axes.Axes: The axes object with the plot
+
+---
+
+### world_chart()
+
+**Description:**
+Create a choropleth world map with customization options using Plotly.
+
+**Parameters:**
+- `data` (pandas DataFrame): The DataFrame containing the data to plot
+- `countries` (str): Column name containing country names or codes
+- `column` (str): Column name for the color values
+- `locationmode` (str, optional): Location mode - 'country names', 'ISO-3', or 'USA-states' (default: 'country names')
+- `color_scale` (str, optional): Plotly color scale ('Viridis', 'Plasma', 'Reds', etc.) (default: 'Viridis')
+- `title` (str, optional): Title of the plot
+- `width` (int, optional): Figure width in pixels (default: 1000)
+- `height` (int, optional): Figure height in pixels (default: 600)
+
+**Returns:**
+- plotly.graph_objects.Figure: The Plotly figure object
+
+---
+
+### show_world_chart()
+
+**Description:**
+Generates and displays the choropleth chart.
+
+**Parameters:**
+- `data` (pandas DataFrame): The DataFrame containing the data to plot
+- `country` (str): Column name containing country names or codes
+- `column` (str): Column name for the color values
+
+---
+
+### lineplot()
+
+**Description:**
+Create a line chart using Seaborn with optional confidence intervals, multiple hues, and styling options.
+
+**Parameters:**
+- `data` (pandas DataFrame): The DataFrame containing the data to plot
+- `x_col` (str): Column name for the x-axis (should be numeric or datetime)
+- `y_col` (str): Column name for the y-axis
+- `hue_col` (str, optional): Column name for color encoding (categorical variable)
+- `title` (str, optional): Title of the plot (default: "Line Chart")
+- `x_label` (str, optional): Label for x-axis (default: uses x_col)
+- `y_label` (str, optional): Label for y-axis (default: uses y_col)
+- `figsize` (tuple, optional): Figure size (width, height) in inches (default: (10, 6))
+- `alpha` (float, optional): Transparency of lines (default: 0.8)
+- `palette` (str, optional): Color palette name (default: 'viridis')
+- `save_path` (str, optional): Path to save the plot (e.g., 'plot.png')
+- `ci` (int, None, or 'sd', optional): Confidence interval size or standard deviation
+- `style_col` (str, optional): Column name for line style encoding
+- `markers` (bool, optional): Whether to show markers on data points (default: False)
+- `linewidth` (float, optional): Width of the lines (default: 2.5)
+- `err_style` (str, optional): Style of error representation: 'band' or 'bars' (default: 'band')
+- `err_alpha` (float, optional): Transparency of error region (default: 0.3)
+
+**Returns:**
+- matplotlib.axes.Axes: The axes object with the plot
 
 # Report Generation
 
