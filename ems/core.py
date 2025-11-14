@@ -433,3 +433,6 @@ def quick_start_guide():
     print("4. ml_guide() for modeling")
     print("")
     print("Visit https://github.com/HughP01/EMS-Toolkit for more")
+
+def marco():
+    print("polo")
