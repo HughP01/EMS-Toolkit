@@ -28,7 +28,11 @@ The project is now installed and you have access to all functions in the EMS Too
 
 
 # Features
-
+### Built in AI tools
+- Built in Gemini API
+- Automatic Report Generation
+- Data Analysis Pipeline Suggestions
+  
 ### Data Quality & Cleaning
 - Identify duplicate, null, and unique entries
 - Remove duplicates and outliers
@@ -71,10 +75,8 @@ Sorting and ranking.<br>
 Grouping and aggregation (sums, averages, counts, etc.).<br>
 reshaping (wide vs long format).<br>
 Feature engineering (e.g., creating ratios, lags, rolling averages).<br>
-gemini: data type report, dist. report,  <br>
 Plotting Time series<br>
 Interactive dashboards.<br>
-Automated reporting (PDF, HTML, notebooks).
 #### Testing 
 Hypothesis testing (t-tests, chi-square, ANOVA)
 Classification Models
