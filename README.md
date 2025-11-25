@@ -1,5 +1,5 @@
-# EMS - Extra Modelling System
-EMS - Extra Modelling System is a simple to use data analysis system to quickly provides insights, visualizations, and statistical summaries of your datasets. with minimal user coding required. <br>
+# EMS
+A simple to use data analysis system to quickly provides insights, visualizations, and statistical summaries of your datasets. with minimal user coding required. <br>
 It is designed to be easily imported into Python, EMS streamlines exploratory data analysis, allowing you to identify trends, correlations, and key metrics with minimal code. Perfect for data scientists, analysts, and developers who want fast, clear, and actionable data insights.
 # Getting Started
 For usage documentation please find our [Usage Guide](USAGE.md).
@@ -25,10 +25,10 @@ polo
 ```
 
 The project is now installed and you have access to all functions in the EMS Toolkit.
-
+Note: To use the built in AI features please make sure that you have the necessary API keys saved on your system variabls. eg. GEMIN_API_KEY
 
 # Features
-### Built in AI tools
+### Built in Artificial Intelligence tools
 - Built in Gemini API
 - Automatic Report Generation
 - Data Analysis Pipeline Suggestions
