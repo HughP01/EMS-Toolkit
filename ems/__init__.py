@@ -4,3 +4,4 @@ from .basic_graphing import * #Graphing our df using basic plots for initial dat
 from .advanced_graphing import * #Graphing our df using seaborn and pyplot
 from .reporting import * #Report gneration using APIs
 from .mach_learning import * #reg and class pipelines
+from .stats import *#Stats functions
