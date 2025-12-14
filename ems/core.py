@@ -5,6 +5,19 @@ import seaborn as sns
 from collections import Counter
 
 
+def find(data,column,item):
+    """
+    Is item in columns? And if so, where?
+
+    Parameters:
+    data
+    column
+    item
+
+    Returns:
+    df: Pandas df containing all rows where column entry is == item, for all data types
+    """
+
 def generate_dataframe_summary(data, sample_size=5):
     df=data
     """
