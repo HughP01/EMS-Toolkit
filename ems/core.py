@@ -5,18 +5,23 @@ import seaborn as sns
 from collections import Counter
 
 
-def find(data,column,item):
+def find(data, column, item):
     """
-    Is item in columns? And if so, where?
-
+    Is item in column? And if so, where?
     Parameters:
-    data
-    column
-    item
-
+    data     : pandas DataFrame
+    column   : str, name of the column to search in
+    item     : the value looking for (works with strings, numbers, dates, booleans, etc.)
     Returns:
-    df: Pandas df containing all rows where column entry is == item, for all data types
+    df       : Pandas DataFrame containing all rows where column entry == item
     """
+    #safety checks
+    if not isinstance(data, pd.DataFrame):
+        raise ValueError("First argument 'data' must be a pandas DataFrame")
+    if column not in data.columns:
+        raise ValueError(f"Column '{column}' not found in DataFrame")
+    result = data[data[column] == item]
+    return result
 
 def generate_dataframe_summary(data, sample_size=5):
     df=data
