@@ -71,6 +71,9 @@ Note: To use the built in AI features please make sure that you have the necessa
 - **Regression Models**:
 - **Classification Models**:
 
+### Statistical Analysis
+- *T-tests*:
+
 # To-Do
 Filtering and subsetting rows.<br>
 Sorting and ranking.<br>
@@ -78,5 +81,4 @@ Feature engineering (e.g., creating ratios, lags, rolling averages).<br>
 Plotting Time series<br>
 Interactive dashboards.<br>
 #### Testing 
-Hypothesis testing (t-tests, chi-square, ANOVA)
-Classification Models
+Hypothesis testing (, chi-square, ANOVA)
