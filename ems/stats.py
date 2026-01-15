@@ -8,6 +8,226 @@ from scipy.optimize import minimize
 from warnings import filterwarnings
 filterwarnings('ignore')  #cleaner output
 
+
+def ttest(data, formula=None, paired=False, var_equal=False, alternative='two-sided', mu=0):
+    """
+    Does a t test on pandas DataFrame data and prints the results
+    Parameters:
+    -----------
+    data : pandas DataFrame
+        DataFrame containing the data
+    formula : str, optional
+        - One-sample: "column_name" (tests if mean equals mu)
+        - Two-sample: "column_name ~ group_column" 
+        - Paired: "column1 ~ column2" (when paired=True)
+    paired : bool, default=False
+        If True, perform paired t-test
+    var_equal : bool, default=False
+        If True, assume equal variances (standard two-sample t-test)
+        If False, use Welch's t-test (unequal variances)
+    alternative : str, default='two-sided'
+        Alternative hypothesis: 'two-sided', 'less', or 'greater'
+    mu : float, default=0
+        Theoretical mean for one-sample test
+    
+    Returns:
+    --------
+    tuple: (t_statistic, p_value, degrees_of_freedom)
+    """
+    
+    if formula is None:
+        raise ValueError("Formula must be specified. Use 'column' for one-sample or 'column ~ group' for two-sample.")
+    
+    # Parse the formula
+    formula_parts = formula.split('~')
+    
+    if len(formula_parts) == 1:
+        #1 sample t-test
+        column = formula_parts[0].strip()
+        sample_data = data[column].dropna()
+        
+        t_stat, p_val = stats.ttest_1samp(sample_data, mu, alternative=alternative)
+        df = len(sample_data) - 1
+        test_type = "One Sample t-test"
+        
+        mean_val = np.mean(sample_data)
+        std_val = np.std(sample_data, ddof=1)
+        n = len(sample_data)
+        
+        print(f"\n\t{test_type}")
+        print(f"\nData: {column}")
+        print(f"t = {t_stat:.4f}, df = {df}, p-value = {p_val:.4f}")
+        
+        #Alt hypothesis wording
+        alt_hyp = f"true mean is not equal to {mu}"
+        if alternative == 'greater':
+            alt_hyp = f"true mean is greater than {mu}"
+        elif alternative == 'less':
+            alt_hyp = f"true mean is less than {mu}"
+        
+        print(f"Alternative hypothesis: {alt_hyp}")
+        print(f"95 percent confidence interval:")
+        ci = stats.t.interval(0.95, df, loc=mean_val, scale=std_val/np.sqrt(n))
+        print(f" {ci[0]:.4f} {ci[1]:.4f}")
+        print(f"Sample estimates:")
+        print(f"mean of x")
+        print(f"  {mean_val:.4f}")
+        
+    elif len(formula_parts) == 2: # 2 parts to formula
+        left = formula_parts[0].strip()
+        right = formula_parts[1].strip()
+        
+        if paired:
+            #Paired t-test: column1 ~ column2
+            data1 = data[left].dropna()
+            data2 = data[right].dropna()
+            
+            common_idx = data1.index.intersection(data2.index)
+            data1 = data1.loc[common_idx]
+            data2 = data2.loc[common_idx]
+            
+            if len(data1) != len(data2):
+                raise ValueError("For paired t-test, columns must have the same number of non-missing values")
+            
+            t_stat, p_val = stats.ttest_rel(data1, data2, alternative=alternative)
+            df = len(data1) - 1
+            test_type = "Paired t-test"
+            
+            mean_diff = np.mean(data1 - data2)
+            std_diff = np.std(data1 - data2, ddof=1)
+            
+            print(f"\n\t{test_type}")
+            print(f"\nData: {left} and {right}")
+            print(f"t = {t_stat:.4f}, df = {df}, p-value = {p_val:.4f}")
+            
+            # Alternative hypothesis wording
+            alt_hyp = "true mean difference is not equal to 0"
+            if alternative == 'greater':
+                alt_hyp = "true mean difference is greater than 0"
+            elif alternative == 'less':
+                alt_hyp = "true mean difference is less than 0"
+            
+            print(f"Alternative hypothesis: {alt_hyp}")
+            print(f"95 percent confidence interval:")
+            ci = stats.t.interval(0.95, df, loc=mean_diff, scale=std_diff/np.sqrt(len(data1)))
+            print(f" {ci[0]:.4f} {ci[1]:.4f}")
+            print(f"Sample estimates:")
+            print(f"mean of the differences")
+            print(f"  {mean_diff:.4f}")
+            
+        else:
+            # Two-sample t-test: column ~ group_column
+            # Check if right side is a column in the dataframe
+            if right in data.columns:
+                # It's a group column
+                group_column = right
+                value_column = left
+                
+                # Get unique groups
+                groups = data[group_column].dropna().unique()
+                if len(groups) != 2:
+                    raise ValueError(f"Group column must have exactly 2 unique values, found {len(groups)}")
+                
+                group1, group2 = groups
+                data1 = data[data[group_column] == group1][value_column].dropna()
+                data2 = data[data[group_column] == group2][value_column].dropna()
+                
+                test_name = "Two Sample t-test"
+                
+                if var_equal:
+                    # Standard two-sample t-test (equal variances)
+                    t_stat, p_val = stats.ttest_ind(data1, data2, equal_var=True, alternative=alternative)
+                    df = len(data1) + len(data2) - 2
+                else:
+                    # Welch's t-test (unequal variances)
+                    t_stat, p_val = stats.ttest_ind(data1, data2, equal_var=False, alternative=alternative)
+                    
+                    # Calculate degrees of freedom for Welch's test
+                    n1, n2 = len(data1), len(data2)
+                    s1, s2 = np.std(data1, ddof=1), np.std(data2, ddof=1)
+                    df = ((s1**2/n1 + s2**2/n2)**2) / ((s1**2/n1)**2/(n1-1) + (s2**2/n2)**2/(n2-1))
+                    test_name = "Welch Two Sample t-test"
+                
+                mean1, mean2 = np.mean(data1), np.mean(data2)
+                std1, std2 = np.std(data1, ddof=1), np.std(data2, ddof=1)
+                n1, n2 = len(data1), len(data2)
+                
+                print(f"\n\t{test_name}")
+                print(f"\nData: {value_column} by {group_column}")
+                print(f"t = {t_stat:.4f}, df = {df:.2f}, p-value = {p_val:.4f}")
+                
+                #alt hypothesis wording
+                alt_hyp = "true difference in means is not equal to 0"
+                if alternative == 'greater':
+                    alt_hyp = f"true difference in means of group {group1} and group {group2} is greater than 0"
+                elif alternative == 'less':
+                    alt_hyp = f"true difference in means of group {group1} and group {group2} is less than 0"
+                else:
+                    alt_hyp = f"true difference in means between group {group1} and group {group2} is not equal to 0"
+                
+                print(f"Alternative hypothesis: {alt_hyp}")
+                print(f"95 percent confidence interval:")
+                
+                #confidence interval
+                se = np.sqrt(std1**2/n1 + std2**2/n2)
+                ci = stats.t.interval(0.95, df, loc=mean1-mean2, scale=se)
+                print(f" {ci[0]:.4f} {ci[1]:.4f}")
+                
+                print(f"Sample estimates:")
+                print(f"mean in group {group1} mean in group {group2}")
+                print(f"           {mean1:.4f}            {mean2:.4f}")
+                
+            else:
+                data1 = data[left].dropna()
+                data2 = data[right].dropna()
+                
+                test_name = "Two Sample t-test"
+                
+                if var_equal:
+                    t_stat, p_val = stats.ttest_ind(data1, data2, equal_var=True, alternative=alternative)
+                    df = len(data1) + len(data2) - 2
+                else:
+                    t_stat, p_val = stats.ttest_ind(data1, data2, equal_var=False, alternative=alternative)
+                    n1, n2 = len(data1), len(data2)
+                    s1, s2 = np.std(data1, ddof=1), np.std(data2, ddof=1)
+                    df = ((s1**2/n1 + s2**2/n2)**2) / ((s1**2/n1)**2/(n1-1) + (s2**2/n2)**2/(n2-1))
+                    test_name = "Welch Two Sample t-test"
+                
+                mean1, mean2 = np.mean(data1), np.mean(data2)
+                
+                print(f"\n\t{test_name}")
+                print(f"\nData: {left} and {right}")
+                print(f"t = {t_stat:.4f}, df = {df:.2f}, p-value = {p_val:.4f}")
+                
+                # alt hypothesis wording
+                alt_hyp = "true difference in means is not equal to 0"
+                if alternative == 'greater':
+                    alt_hyp = "true difference in means is greater than 0"
+                elif alternative == 'less':
+                    alt_hyp = "true difference in means is less than 0"
+                
+                print(f"Alternative hypothesis: {alt_hyp}")
+                print(f"95 percent confidence interval:")
+                
+                #find confidence interval
+                std1, std2 = np.std(data1, ddof=1), np.std(data2, ddof=1)
+                n1, n2 = len(data1), len(data2)
+                se = np.sqrt(std1**2/n1 + std2**2/n2)
+                ci = stats.t.interval(0.95, df, loc=mean1-mean2, scale=se)
+                print(f" {ci[0]:.4f} {ci[1]:.4f}")
+                
+                print(f"Sample estimates:")
+                print(f"mean of {left} mean of {right}")
+                print(f"    {mean1:.4f}     {mean2:.4f}")
+    
+    else:
+        raise ValueError("Invalid formula format. Use 'column' or 'column ~ group' or 'column1 ~ column2'")
+    
+    #Add a separator line similar to R output
+    print("\n" + "="*50)
+    
+    return t_stat, p_val, df
+
 class DistributionIdentifier:
     """
     Comprehensive distribution identification system.
