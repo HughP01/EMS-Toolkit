@@ -26,6 +26,7 @@ polo
 The project is now installed and you have access to all functions in the EMS Toolkit.
 
 Note: To use the built in AI features please make sure that you have the necessary API keys saved on your system variabls. eg. GEMINI_API_KEY
+
 For usage documentation please find our [Usage Guide](USAGE.md).
 # Features
 ### Built in Artificial Intelligence tools
