@@ -23,17 +23,21 @@ def find(data, column, item):
     result = data[data[column] == item]
     return result
 
-def sort(data,col,order=ASC):
+def sort(data, col, order="ASC"):
     """
-    PLACEHOLDER
-    
-    Sorts a df by column in ascending (or decending order) and returns a sorted pandas df
+    Sorts a df by column in ascending (or descending order) and returns a sorted pandas df
     Parameters:
     data: our pandas dataframe to be sorted
     col: String - The column to be used to sort df by
-    order: ASC,DSC. Is the df sorted in ascending or decending order?
+    order: ASC, DSC. Is the df sorted in ascending or descending order?
     """
-
+    if order.upper() == 'ASC':
+        sorted_df = data.sort_values(by=col, ascending=True)
+    elif order.upper() == 'DSC':
+        sorted_df = data.sort_values(by=col, ascending=False)
+    else:
+        raise ValueError("order must be either 'ASC' or 'DSC'")
+    
     return sorted_df
 
 def generate_dataframe_summary(data, sample_size=5):
