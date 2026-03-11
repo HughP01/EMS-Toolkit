@@ -76,7 +76,8 @@ For usage documentation please find our [Usage Guide](USAGE.md).
 
 # To-Do
 Filtering and subsetting rows.<br>
-Sorting and ranking.<br>
+plotting linear regression <br>
+Ranking.<br>
 Feature engineering (e.g., creating ratios, lags, rolling averages).<br>
 Plotting Time series<br>
 Interactive dashboards.<br>
