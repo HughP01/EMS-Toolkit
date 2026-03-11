@@ -5,5 +5,4 @@ seaborn
 sklearn
 scipy
 plotly
-google-genai
 dotenv
