@@ -7,7 +7,7 @@ It is designed to be easily imported into Python, EMS streamlines exploratory da
 - Using the folder location on the users system run the following python code at the start of your project:
 ```python
 import sys
-sys.path.append(r"C:\Users\HughP01\EMS-Toolkit") # <-- Your file location in the brackets
+sys.path.append(r"C:\Users\HughP01\EMS-Toolkit-main") # <-- Your file location in the brackets
 from ems import *
 ```
 ### Installation Verification
