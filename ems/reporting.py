@@ -1,4 +1,4 @@
-from google import genai
+#from google import genai #No longer runs on module level - now optional
 import os
 import pandas as pd
 import numpy as np
@@ -20,7 +20,8 @@ def corr_report(data, method='pearson'): #Correlation report generation
     --------
     str: AI-generated correlation analysis report
     """
-    
+    from google import genai
+
     # Input validation
     if not isinstance(data, pd.DataFrame):
         raise TypeError("Input must be a pandas data.")
@@ -89,6 +90,7 @@ def data_quality_report(data):
     --------
     str: AI-generated data quality analysis report
     """
+    from google import genai
     
     # Input validation
     if not isinstance(data, pd.DataFrame):
