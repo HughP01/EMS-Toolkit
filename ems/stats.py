@@ -800,3 +800,6 @@ class DistributionIdentifier:
         
         plt.tight_layout()
         plt.show()
+
+def ShowLR():
+        """filler"""
