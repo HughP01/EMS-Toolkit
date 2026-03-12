@@ -47,7 +47,7 @@ def ttest(data, formula=None, paired=False, var_equal=False, alternative='two-si
         sample_data = data[column].dropna()
         
         t_stat, p_val = stats.ttest_1samp(sample_data, mu, alternative=alternative)
-        df = len(sample_data) - 1
+        data = len(sample_data) - 1
         test_type = "One Sample t-test"
         
         mean_val = np.mean(sample_data)
@@ -56,7 +56,7 @@ def ttest(data, formula=None, paired=False, var_equal=False, alternative='two-si
         
         print(f"\n\t{test_type}")
         print(f"\nData: {column}")
-        print(f"t = {t_stat:.4f}, df = {df}, p-value = {p_val:.4f}")
+        print(f"t = {t_stat:.4f}, data = {data}, p-value = {p_val:.4f}")
         
         #Alt hypothesis wording
         alt_hyp = f"true mean is not equal to {mu}"
@@ -67,7 +67,7 @@ def ttest(data, formula=None, paired=False, var_equal=False, alternative='two-si
         
         print(f"Alternative hypothesis: {alt_hyp}")
         print(f"95 percent confidence interval:")
-        ci = stats.t.interval(0.95, df, loc=mean_val, scale=std_val/np.sqrt(n))
+        ci = stats.t.interval(0.95, data, loc=mean_val, scale=std_val/np.sqrt(n))
         print(f" {ci[0]:.4f} {ci[1]:.4f}")
         print(f"Sample estimates:")
         print(f"mean of x")
@@ -90,7 +90,7 @@ def ttest(data, formula=None, paired=False, var_equal=False, alternative='two-si
                 raise ValueError("For paired t-test, columns must have the same number of non-missing values")
             
             t_stat, p_val = stats.ttest_rel(data1, data2, alternative=alternative)
-            df = len(data1) - 1
+            data = len(data1) - 1
             test_type = "Paired t-test"
             
             mean_diff = np.mean(data1 - data2)
@@ -98,7 +98,7 @@ def ttest(data, formula=None, paired=False, var_equal=False, alternative='two-si
             
             print(f"\n\t{test_type}")
             print(f"\nData: {left} and {right}")
-            print(f"t = {t_stat:.4f}, df = {df}, p-value = {p_val:.4f}")
+            print(f"t = {t_stat:.4f}, data = {data}, p-value = {p_val:.4f}")
             
             # Alternative hypothesis wording
             alt_hyp = "true mean difference is not equal to 0"
@@ -109,7 +109,7 @@ def ttest(data, formula=None, paired=False, var_equal=False, alternative='two-si
             
             print(f"Alternative hypothesis: {alt_hyp}")
             print(f"95 percent confidence interval:")
-            ci = stats.t.interval(0.95, df, loc=mean_diff, scale=std_diff/np.sqrt(len(data1)))
+            ci = stats.t.interval(0.95, data, loc=mean_diff, scale=std_diff/np.sqrt(len(data1)))
             print(f" {ci[0]:.4f} {ci[1]:.4f}")
             print(f"Sample estimates:")
             print(f"mean of the differences")
@@ -137,7 +137,7 @@ def ttest(data, formula=None, paired=False, var_equal=False, alternative='two-si
                 if var_equal:
                     # Standard two-sample t-test (equal variances)
                     t_stat, p_val = stats.ttest_ind(data1, data2, equal_var=True, alternative=alternative)
-                    df = len(data1) + len(data2) - 2
+                    data = len(data1) + len(data2) - 2
                 else:
                     # Welch's t-test (unequal variances)
                     t_stat, p_val = stats.ttest_ind(data1, data2, equal_var=False, alternative=alternative)
@@ -145,7 +145,7 @@ def ttest(data, formula=None, paired=False, var_equal=False, alternative='two-si
                     # Calculate degrees of freedom for Welch's test
                     n1, n2 = len(data1), len(data2)
                     s1, s2 = np.std(data1, ddof=1), np.std(data2, ddof=1)
-                    df = ((s1**2/n1 + s2**2/n2)**2) / ((s1**2/n1)**2/(n1-1) + (s2**2/n2)**2/(n2-1))
+                    data = ((s1**2/n1 + s2**2/n2)**2) / ((s1**2/n1)**2/(n1-1) + (s2**2/n2)**2/(n2-1))
                     test_name = "Welch Two Sample t-test"
                 
                 mean1, mean2 = np.mean(data1), np.mean(data2)
@@ -154,7 +154,7 @@ def ttest(data, formula=None, paired=False, var_equal=False, alternative='two-si
                 
                 print(f"\n\t{test_name}")
                 print(f"\nData: {value_column} by {group_column}")
-                print(f"t = {t_stat:.4f}, df = {df:.2f}, p-value = {p_val:.4f}")
+                print(f"t = {t_stat:.4f}, data = {data:.2f}, p-value = {p_val:.4f}")
                 
                 #alt hypothesis wording
                 alt_hyp = "true difference in means is not equal to 0"
@@ -170,7 +170,7 @@ def ttest(data, formula=None, paired=False, var_equal=False, alternative='two-si
                 
                 #confidence interval
                 se = np.sqrt(std1**2/n1 + std2**2/n2)
-                ci = stats.t.interval(0.95, df, loc=mean1-mean2, scale=se)
+                ci = stats.t.interval(0.95, data, loc=mean1-mean2, scale=se)
                 print(f" {ci[0]:.4f} {ci[1]:.4f}")
                 
                 print(f"Sample estimates:")
@@ -185,19 +185,19 @@ def ttest(data, formula=None, paired=False, var_equal=False, alternative='two-si
                 
                 if var_equal:
                     t_stat, p_val = stats.ttest_ind(data1, data2, equal_var=True, alternative=alternative)
-                    df = len(data1) + len(data2) - 2
+                    data = len(data1) + len(data2) - 2
                 else:
                     t_stat, p_val = stats.ttest_ind(data1, data2, equal_var=False, alternative=alternative)
                     n1, n2 = len(data1), len(data2)
                     s1, s2 = np.std(data1, ddof=1), np.std(data2, ddof=1)
-                    df = ((s1**2/n1 + s2**2/n2)**2) / ((s1**2/n1)**2/(n1-1) + (s2**2/n2)**2/(n2-1))
+                    data = ((s1**2/n1 + s2**2/n2)**2) / ((s1**2/n1)**2/(n1-1) + (s2**2/n2)**2/(n2-1))
                     test_name = "Welch Two Sample t-test"
                 
                 mean1, mean2 = np.mean(data1), np.mean(data2)
                 
                 print(f"\n\t{test_name}")
                 print(f"\nData: {left} and {right}")
-                print(f"t = {t_stat:.4f}, df = {df:.2f}, p-value = {p_val:.4f}")
+                print(f"t = {t_stat:.4f}, data = {data:.2f}, p-value = {p_val:.4f}")
                 
                 # alt hypothesis wording
                 alt_hyp = "true difference in means is not equal to 0"
@@ -213,7 +213,7 @@ def ttest(data, formula=None, paired=False, var_equal=False, alternative='two-si
                 std1, std2 = np.std(data1, ddof=1), np.std(data2, ddof=1)
                 n1, n2 = len(data1), len(data2)
                 se = np.sqrt(std1**2/n1 + std2**2/n2)
-                ci = stats.t.interval(0.95, df, loc=mean1-mean2, scale=se)
+                ci = stats.t.interval(0.95, data, loc=mean1-mean2, scale=se)
                 print(f" {ci[0]:.4f} {ci[1]:.4f}")
                 
                 print(f"Sample estimates:")
@@ -226,7 +226,7 @@ def ttest(data, formula=None, paired=False, var_equal=False, alternative='two-si
     #Add a separator line similar to R output
     print("\n" + "="*50)
     
-    return t_stat, p_val, df
+    return t_stat, p_val, data
 
 class DistributionIdentifier:
     """
@@ -800,6 +800,161 @@ class DistributionIdentifier:
         
         plt.tight_layout()
         plt.show()
+
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import matplotlib.patches as mpatches
+from scipy import stats
+ 
+ 
+def QQplot(
+    data: pd.DataFrame,
+    column: str,
+    ax: plt.Axes = None,
+    confidence: float = 0.95,
+    title: str = None,
+) -> tuple[plt.Figure, plt.Axes, dict]:
+    """
+    Plot a Normal Quantile (Q-Q) plot for a column in a DataFrame
+    and test whether its distribution is approximately normal.
+ 
+    Parameters
+    ----------
+    df         : pandas DataFrame containing the data.
+    column     : Name of the numeric column to test.
+    ax         : Optional existing Axes to draw on. A new figure is created
+                 when None (default).
+    confidence : Confidence level for the envelope curves (default 0.95).
+    title      : Custom plot title. Auto-generated when None.
+ 
+    Returns
+    -------
+    fig        : The matplotlib Figure object.
+    ax         : The matplotlib Axes object.
+    results    : Dict with Shapiro-Wilk and K-S test statistics and p-values.
+ 
+    Style
+    -----
+    - Data points  : hollow black circles
+    - Reference line: solid blue line
+    - Confidence envelope: dashed red curves
+    """
+    #Validate input                                                    #
+    if column not in data.columns:
+        raise ValueError(f"Column '{column}' not found in DataFrame.")
+ 
+    data = data[column].dropna().to_numpy(dtype=float)
+    n = len(data)
+    if n < 4:
+        raise ValueError(f"Need at least 4 non-null observations; got {n}.")
+ 
+    
+    #Q-Q                                
+    data_sorted = np.sort(data)
+ 
+    #theoretical quantiles (Filliben formula)
+    i = np.arange(1, n + 1)
+    probs = (i - 0.375) / (n + 0.25)
+    theoretical_q = stats.norm.ppf(probs)
+ 
+    #fit norm
+    mu, sigma = stats.norm.fit(data)
+    line_y = mu + sigma * theoretical_q
+ 
+    #Confidence bands 
+
+    n_sim = 2_000
+    sim_qs = np.sort(
+        stats.norm.ppf(
+            np.random.uniform(size=(n_sim, n)),
+            loc=mu,
+            scale=sigma,
+        ),
+        axis=1,
+    )
+    alpha = 1 - confidence
+    lower_env = np.quantile(sim_qs, alpha / 2, axis=0)
+    upper_env = np.quantile(sim_qs, 1 - alpha / 2, axis=0)
+
+    #Normality tests
+
+    sw_stat, sw_p = stats.shapiro(data)
+    ks_stat, ks_p = stats.kstest(data, "norm", args=(mu, sigma))
+ 
+    results = {
+        "shapiro_wilk": {"statistic": sw_stat, "p_value": sw_p},
+        "kolmogorov_smirnov": {"statistic": ks_stat, "p_value": ks_p},
+        "n": n,
+        "mu": mu,
+        "sigma": sigma,
+        "is_normal_sw": sw_p > (1 - confidence),
+        "is_normal_ks": ks_p > (1 - confidence),
+    }
+    #Plot
+    if ax is None:
+        fig, ax = plt.subplots(figsize=(7, 6))
+    else:
+        fig = ax.get_figure()
+ 
+    # Confidence envelope (filled area + dashed borders)
+    ax.fill_between(
+        theoretical_q,
+        lower_env,
+        upper_env,
+        color="red",
+        alpha=0.10,
+        zorder=1,
+    )
+    ax.plot(theoretical_q, lower_env, color="red", linewidth=1.2,
+            linestyle="--", label=f"{int(confidence*100)}% confidence envelope", zorder=2)
+    ax.plot(theoretical_q, upper_env, color="red", linewidth=1.2,
+            linestyle="--", zorder=2)
+ 
+    # Reference line (blue)
+    ax.plot(theoretical_q, line_y, color="royalblue", linewidth=1.8,
+            linestyle="-", label="Normal reference line", zorder=3)
+ 
+    # Data points
+    ax.scatter(
+        theoretical_q,
+        data_sorted,
+        edgecolors="black",
+        facecolors="none",
+        s=40,
+        linewidths=0.9,
+        zorder=4,
+        label="Observed data",
+    )
+                                                    
+    verdict_sw = "Normal" if results["is_normal_sw"] else "Non-normal"
+    verdict_ks = "Normal" if results["is_normal_ks"] else "Non-normal"
+    info = (
+        f"n = {n}\n"
+        f"μ = {mu:.3g},  σ = {sigma:.3g}\n"
+        f"Shapiro-Wilk  p = {sw_p:.3g}  →  {verdict_sw}\n"
+        f"K-S test       p = {ks_p:.3g}  →  {verdict_ks}"
+    )
+    ax.text(
+        0.03, 0.97, info,
+        transform=ax.transAxes,
+        fontsize=8.5,
+        verticalalignment="top",
+        bbox=dict(boxstyle="round,pad=0.4", facecolor="white",
+                  edgecolor="grey", alpha=0.85),
+    )
+    #Labels
+    if title is None:
+        title = f"Normal Quantile Plot — '{column}'"
+    ax.set_title(title, fontsize=13, fontweight="bold", pad=10)
+    ax.set_xlabel("Theoretical Quantiles", fontsize=11)
+    ax.set_ylabel("Sample Quantiles", fontsize=11)
+    ax.legend(fontsize=9, loc="lower right")
+    ax.grid(True, linestyle=":", linewidth=0.6, alpha=0.7)
+    fig.tight_layout()
+ 
+    return fig, ax, results
+
 
 def ShowLR():
         """filler"""
