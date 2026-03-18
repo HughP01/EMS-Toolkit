@@ -5,6 +5,7 @@ import scipy.stats as stats
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import seaborn as sns
+from sklearn.linear_model import LinearRegression
 from scipy.optimize import minimize
 from warnings import filterwarnings
 filterwarnings('ignore')  #cleaner output
@@ -952,5 +953,53 @@ def QQplot(
     return fig, ax, results
 
 
-def ShowLR():
-        """filler"""
+def Fit_LinR(data,xcol,ycol,dropna=False,title="Linear Regression Fit",xlab=None,ylab=None,figsize=(10,6),ci=95):
+    """Function goes here
+    in: 
+    pandas df
+
+    out: 
+    Stats,Coefs of LR (Intercept, Slope, R2 score),graph with CI and data points   
+    """
+    #Input error Catching
+    if xcol not in data.columns or ycol not in data.columns:
+        raise ValueError(f"Column(s) not in daataframe.")
+    #Optional removal of rows containing NA in our chosen columns
+    if dropna:
+        data=data[[xcol,ycol]].dropna
+    if len(data)<2:
+        raise ValueError(f"Not enough valid datapoints")
+
+    #Core here
+    X = data[[xcol]].values
+    y = data[[ycol]].values
+    Model = LinearRegression()
+    Model.fit(X,y)
+
+    #Results Here
+    slope = Model.coef_[0]
+    intercept=Model.intercept_
+    r2 = Model.score(X,y)
+
+
+    #print results here
+    print(f"Linear regression results")
+    print(f"Intercept :{intercept.item():.4f}")
+    print(f"Slope :{slope.item():.4f}")
+    print(f"Our equation : y = {slope.item():.4f}*x + {intercept.item():.4f}")
+    print(f"R2 score :{r2:.4f}")
+    #Graph model here
+    plt.figure(figsize=figsize)
+
+    sns.regplot(data=data,x=xcol,y=ycol,ci=ci,scatter=True,truncate=True,color="black",line_kws={"color":"black"},scatter_kws={"facecolors":"none", "edgecolors":"black","alpha":0.7})
+    fig = plt.gcf()
+    ax = plt.gca()
+    if len(ax.collections)>1: #Selected ONLY the CI
+        ax.collections[1].set_facecolor("blue")
+        ax.collections[1].set_alpha(0.1)
+    
+    #show graph
+    plt.title(title)
+    plt.grid(True)
+    plt.tight_layout()
+    plt.show()
